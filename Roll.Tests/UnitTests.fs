@@ -18,6 +18,8 @@ type Unit(output: ITestOutputHelper) =
             if lhs <> rhs then
                 output.WriteLine(sprintf "%A != %A" lhs rhs)
                 Assert.Equal(lhs, rhs)
+        eq(Rolls.Sum [Roll(4,10,0); Roll(1,6,0)], DiceParser.ParseDice("4d10+d6"))
+        eq(Rolls.Sum [Roll(4,10,0); Roll(1,6,5)], DiceParser.ParseDice("4d10+d6+5"))
         eq(Rolls.Roll(3,6,4), DiceParser.ParseDice("3d6+4"))
         eq(Rolls.Roll(3,6,0), DiceParser.ParseDice("3d6"))
         eq(Rolls.Roll(1,8,0), DiceParser.ParseDice("d8"))
@@ -25,11 +27,16 @@ type Unit(output: ITestOutputHelper) =
         eq(Rolls.Roll(1,8,2), DiceParser.ParseDice("d8+2"))
         eq(Rolls.Roll(3,6,2), DiceParser.ParseDice("3d+2"))
         eq(Rolls.Roll(3,6,-2), DiceParser.ParseDice("3d-2"))
+        eq(Rolls.AtLeast(Rolls.Roll(1,20,0), 14), DiceParser.ParseDice("d20?14"))
         eq(Rolls.Repeat(2, Roll(3,6,0)), DiceParser.ParseDice("2.3d6"))
         eq(Rolls.Min [Roll(3,6,0); Roll(3,6,0)], DiceParser.ParseDice("min 3d6,3d6"))
         eq(Rolls.Max [Roll(3,6,0); Roll(3,6,0); Roll(1,8,0)], DiceParser.ParseDice("max 3d6,3d6,1d8"))
-        eq(Rolls.Min [Roll(1,20,0); Roll(1,20,0)], DiceParser.ParseDice("d20disad"))
+        eq(Rolls.Min [Roll(1,20,0); Roll(1,20,0)], DiceParser.ParseDice("d20disadv"))
         eq(Rolls.Max [Roll(1,20,0); Roll(1,20,0)], DiceParser.ParseDice("d20adv"))
+        eq(Rolls.Sum [Roll(4,10,5); Roll(1,6,0)], DiceParser.ParseDice("4d10+5+1d6"))
+        eq(Rolls.Sum [Roll(4,10,5); Roll(1,6,0)], DiceParser.ParseDice("4d10+5+d6"))
+        eq(Rolls.Sum [Roll(4,10,0); Roll(5,6,0)], DiceParser.ParseDice("4d10+0+5d6"))
+        eq(Rolls.Sum [Roll(4,10,0); Roll(1,6,5)], DiceParser.ParseDice("4d10+d6+5"))
     [<Fact>]
     let ``Bad input will throw an exception``() =
         Assert.Throws<System.Exception>(fun () -> DiceParser.Parse("x") |> ignore)

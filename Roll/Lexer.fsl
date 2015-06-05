@@ -29,10 +29,11 @@ rule tokenstream = parse
 | "min"		{ Parser.Min }
 | "max"		{ Parser.Max }
 | "adv"		{ Parser.Advantage }
-| "disad"	{ Parser.Disadvantage }
+| "disadv"	{ Parser.Disadvantage }
 | ","		{ Parser.Comma }
 | "("		{ Parser.OpenParen }
 | ")"		{ Parser.CloseParen }
+| "?"		{ Parser.QuestionMark }
 // --------------------------
 | whitespace	{ tokenstream lexbuf }
 | newline	{ newline lexbuf; tokenstream lexbuf }
