@@ -10,7 +10,7 @@ let ParseDice input =
     let lexbuf = LexBuffer<char>.FromString input
     let parsed = Parser.start Lexer.tokenstream lexbuf
     printfn "%A" parsed
-    Rolls.Roll(1, 6, 1)
+    parsed
 
 let Parse line =
     match (line : string).Trim().ToLowerInvariant() with

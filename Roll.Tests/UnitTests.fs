@@ -10,7 +10,7 @@ type Unit(output: ITestOutputHelper) =
     let ``Quit should return none``() = 
         Assert.Equal(QuitCommand, DiceParser.Parse "quit")
         Assert.Equal(QuitCommand, DiceParser.Parse "q")
-        Assert.NotEqual(QuitCommand, DiceParser.Parse "x")
+        Assert.NotEqual(QuitCommand, DiceParser.Parse "2d4")
 
     [<Fact>]
     let ``Simple expressions should parse correctly``() =
@@ -25,6 +25,10 @@ type Unit(output: ITestOutputHelper) =
         eq(Rolls.Roll(1,8,2), DiceParser.ParseDice("d8+2"))
         eq(Rolls.Roll(3,6,2), DiceParser.ParseDice("3d+2"))
         eq(Rolls.Roll(3,6,-2), DiceParser.ParseDice("3d-2"))
+
+    [<Fact>]
+    let ``Bad input will throw an exception``() =
+        Assert.Throws<System.Exception>(fun () -> DiceParser.Parse("x") |> ignore)
 
     [<Fact>]
     let ``Whitespace should be ignored``() =

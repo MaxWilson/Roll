@@ -6,22 +6,33 @@
 // The start token becomes a parser function in the compiled code:
 %start start
 
-// Regular tokens
-%token HELLO
-
 // Misc tokens
 %token EOF
 
+%token <int> Number
+%token DSymbol
+%token Plus
+%token Minus
+
 // This is the type of the data produced by a successful reduction of the 'start'
 // symbol:
-%type < int > start
+%type < Rolls.RollSpec > start
 
 %%
 
 // These are the rules of the grammar along with the F# code of the 
 // actions executed as rules are reduced.  
-start: File EOF { $1 }
+start: Roll EOF { $1 }
 
-File:
-	| HELLO						{ 1 }
-	| HELLO HELLO				    { 2 }
+Roll:
+	| Number DSymbol				{ Rolls.Roll($1, 6, 0) }
+	| Number DSymbol Number	{ Rolls.Roll($1, $3, 0) }
+	| DSymbol Number 			    { Rolls.Roll(1, $2, 0) }
+	| Number DSymbol Number			{ Rolls.Roll($1, 6, $3) }
+	| Number DSymbol Number Plus Number  { Rolls.Roll($1, $3, $5) }
+	| DSymbol Number Plus Number			{ Rolls.Roll(1, $2, $4) }
+	| Number DSymbol Plus Number			{ Rolls.Roll($1, 6, $4) }
+	| Number DSymbol Number Minus Number  { Rolls.Roll($1, $3, -$5) }
+	| DSymbol Number Minus Number			{ Rolls.Roll(1, $2, -$4) }
+	| Number DSymbol Minus Number			{ Rolls.Roll($1, 6, -$4) }
+
