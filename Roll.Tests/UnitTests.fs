@@ -11,4 +11,4 @@ let ``Quit should return none``() =
 
 [<Fact>]
 let ``Roller should return rolls``() =
-    Assert.Equal(6, Roller.Roll <| Roll(6, 1, 0))
+    Assert.Equal(6, Roller.Resolve <| Roll(6, 1, 0))
