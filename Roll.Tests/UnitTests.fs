@@ -3,14 +3,14 @@
 open Xunit
 open Rolls
 open Xunit.Abstractions
-open Parser 
+open DiceParser 
 
 type Unit(output: ITestOutputHelper) =
     [<Fact>]
     let ``Quit should return none``() = 
-        Assert.Equal(QuitCommand, Parser.Parse "quit")
-        Assert.Equal(QuitCommand, Parser.Parse "q")
-        Assert.NotEqual(QuitCommand, Parser.Parse "x")
+        Assert.Equal(QuitCommand, DiceParser.Parse "quit")
+        Assert.Equal(QuitCommand, DiceParser.Parse "q")
+        Assert.NotEqual(QuitCommand, DiceParser.Parse "x")
 
     [<Fact>]
     let ``Simple expressions should parse correctly``() =
@@ -18,13 +18,13 @@ type Unit(output: ITestOutputHelper) =
             if lhs <> rhs then
                 output.WriteLine(sprintf "%A != %A" lhs rhs)
                 Assert.Equal(lhs, rhs)
-        eq(Rolls.Roll(3,6,4), Parser.ParseDice("3d6+4"))
-        eq(Rolls.Roll(3,6,0), Parser.ParseDice("3d6"))
-        eq(Rolls.Roll(1,8,0), Parser.ParseDice("d8"))
-        eq(Rolls.Roll(3,6,0), Parser.ParseDice("3d"))
-        eq(Rolls.Roll(1,8,2), Parser.ParseDice("d8+2"))
-        eq(Rolls.Roll(3,6,2), Parser.ParseDice("3d+2"))
-        eq(Rolls.Roll(3,6,-2), Parser.ParseDice("3d-2"))
+        eq(Rolls.Roll(3,6,4), DiceParser.ParseDice("3d6+4"))
+        eq(Rolls.Roll(3,6,0), DiceParser.ParseDice("3d6"))
+        eq(Rolls.Roll(1,8,0), DiceParser.ParseDice("d8"))
+        eq(Rolls.Roll(3,6,0), DiceParser.ParseDice("3d"))
+        eq(Rolls.Roll(1,8,2), DiceParser.ParseDice("d8+2"))
+        eq(Rolls.Roll(3,6,2), DiceParser.ParseDice("3d+2"))
+        eq(Rolls.Roll(3,6,-2), DiceParser.ParseDice("3d-2"))
 
     [<Fact>]
     let ``Whitespace should be ignored``() =

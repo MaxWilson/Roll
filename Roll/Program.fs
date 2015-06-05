@@ -15,9 +15,9 @@ let prompt msg processor =
 [<EntryPoint>]
 let main argv = 
     let rec loop() =
-        match prompt "Roll" (Parser.Parse) with
-        | Some(Parser.QuitCommand) -> ()
-        | Some(Parser.RollCommand(spec)) ->
+        match prompt "Roll" (DiceParser.Parse) with
+        | Some(DiceParser.QuitCommand) -> ()
+        | Some(DiceParser.RollCommand(spec)) ->
             printfn "%d" (Roller.Resolve spec)
             loop()
         | None ->

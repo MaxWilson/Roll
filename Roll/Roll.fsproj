@@ -51,14 +51,15 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <FsLex Include="Lexer.fsl">
+      <OtherFlags>--unicode</OtherFlags>
+    </FsLex>
     <FsYacc Include="Parser.fsy">
       <OtherFlags>--module Parser</OtherFlags>
     </FsYacc>
-
-    <FsLex Include="Lexer.fsl" >
-      <OtherFlags>--unicode</OtherFlags>
-    </FsLex>    <Compile Include="Roller.fs" />
     <Compile Include="Parser.fs" />
+    <Compile Include="DiceRoller.fs" />
+    <Compile Include="DiceParser.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -93,5 +94,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\packages\FsLexYacc.6.1.0\build\FsLexYacc.targets"/>
+  <Import Project="..\packages\FsLexYacc.6.1.0\build\FsLexYacc.targets" />
 </Project>
