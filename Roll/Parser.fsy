@@ -19,6 +19,8 @@
 %token Advantage
 %token Disadvantage
 %token Comma
+%token OpenParen
+%token CloseParen
 
 // This is the type of the data produced by a successful reduction of the 'start'
 // symbol:
@@ -33,6 +35,12 @@ start: Roll EOF { $1 }
 Roll:
 	| SimpleRoll	{ $1 }
 	| Number Dot SimpleRoll { Rolls.Repeat($1, $3) }
+	| Min RollList { Rolls.Min($2) }
+	| Max RollList { Rolls.Max($2) }
+
+RollList:
+	| SimpleRoll Comma RollList { List.append [$1] $3 }
+	| SimpleRoll { [$1] }
 
 SimpleRoll:
 	| Number DSymbol				{ Rolls.Roll($1, 6, 0) }
@@ -45,4 +53,6 @@ SimpleRoll:
 	| Number DSymbol Number Minus Number  { Rolls.Roll($1, $3, -$5) }
 	| DSymbol Number Minus Number			{ Rolls.Roll(1, $2, -$4) }
 	| Number DSymbol Minus Number			{ Rolls.Roll($1, 6, -$4) }
+	| SimpleRoll Advantage					{ Rolls.Max [$1; $1] }
+	| SimpleRoll Disadvantage				{ Rolls.Min [$1; $1] }
 

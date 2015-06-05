@@ -26,7 +26,10 @@ type Unit(output: ITestOutputHelper) =
         eq(Rolls.Roll(3,6,2), DiceParser.ParseDice("3d+2"))
         eq(Rolls.Roll(3,6,-2), DiceParser.ParseDice("3d-2"))
         eq(Rolls.Repeat(2, Roll(3,6,0)), DiceParser.ParseDice("2.3d6"))
-
+        eq(Rolls.Min [Roll(3,6,0); Roll(3,6,0)], DiceParser.ParseDice("min 3d6,3d6"))
+        eq(Rolls.Max [Roll(3,6,0); Roll(3,6,0); Roll(1,8,0)], DiceParser.ParseDice("max 3d6,3d6,1d8"))
+        eq(Rolls.Min [Roll(1,20,0); Roll(1,20,0)], DiceParser.ParseDice("d20disad"))
+        eq(Rolls.Max [Roll(1,20,0); Roll(1,20,0)], DiceParser.ParseDice("d20adv"))
     [<Fact>]
     let ``Bad input will throw an exception``() =
         Assert.Throws<System.Exception>(fun () -> DiceParser.Parse("x") |> ignore)
