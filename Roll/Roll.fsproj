@@ -58,6 +58,7 @@
       <OtherFlags>--module Parser</OtherFlags>
     </FsYacc>
     <Compile Include="Parser.fs" />
+    <Compile Include="Lexer.fs" />
     <Compile Include="DiceRoller.fs" />
     <Compile Include="DiceParser.fs" />
     <Compile Include="Program.fs" />
