@@ -31,7 +31,6 @@ module Roller =
         | AtLeast(roll, target) ->
             let roll = ResolveBase roll outputFunc
             if roll >= target then 1 else 0
-        | _ -> failwith "Not implemented"
     let Resolve spec =
         ResolveBase spec (printfn "%s")
 

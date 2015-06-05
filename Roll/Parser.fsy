@@ -31,7 +31,8 @@
 
 // These are the rules of the grammar along with the F# code of the 
 // actions executed as rules are reduced.  
-start: Roll EOF { $1 }
+start1: Roll EOF { $1 }
+start: PlusList EOF { Rolls.Sum $1 }
 
 Roll:
 	| SimpleRoll	{ $1 }
