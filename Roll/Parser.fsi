@@ -34,11 +34,10 @@ type tokenId =
     | TOKEN_error
 type nonTerminalId = 
     | NONTERM__startstart
-    | NONTERM_start1
     | NONTERM_start
     | NONTERM_Roll
-    | NONTERM_PlusList
     | NONTERM_RollList
+    | NONTERM_PlusList
     | NONTERM_SimpleRoll
 /// This function maps tokens to integer indexes
 val tagOfToken: token -> int
