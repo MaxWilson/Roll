@@ -25,6 +25,7 @@ type Unit(output: ITestOutputHelper) =
         eq(Rolls.Roll(1,8,2), DiceParser.ParseDice("d8+2"))
         eq(Rolls.Roll(3,6,2), DiceParser.ParseDice("3d+2"))
         eq(Rolls.Roll(3,6,-2), DiceParser.ParseDice("3d-2"))
+        eq(Rolls.Repeat(2, Roll(3,6,0)), DiceParser.ParseDice("2.3d6"))
 
     [<Fact>]
     let ``Bad input will throw an exception``() =

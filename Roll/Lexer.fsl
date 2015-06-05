@@ -25,6 +25,12 @@ rule tokenstream = parse
 | int		{ Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }
 | plus		{ Parser.Plus }
 | minus		{ Parser.Minus }
+| "."		{ Parser.Dot }
+| "min"		{ Parser.Min }
+| "max"		{ Parser.Max }
+| "adv"		{ Parser.Advantage }
+| "disadv"	{ Parser.Disadvantage }
+| "comma"		{ Parser.Comma }
 // --------------------------
 | whitespace	{ tokenstream lexbuf }
 | newline	{ newline lexbuf; tokenstream lexbuf }

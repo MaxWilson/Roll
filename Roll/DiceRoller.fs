@@ -1,9 +1,10 @@
 ﻿namespace Rolls
 
 type RollSpec = Roll of dice : int * size : int * plus : int
-                | Max of rolls: RollSpec[]
-                | Min of rolls: RollSpec[]
-                | Sum of rolls: RollSpec[]
+                | Max of rolls: RollSpec list
+                | Min of rolls: RollSpec list
+                | Sum of rolls: RollSpec list
+                | Repeat of count : int * rolls: RollSpec
 
 module Roller =
     let r = System.Random()
