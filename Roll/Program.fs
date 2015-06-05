@@ -1,5 +1,6 @@
 ﻿module Program
 open System
+open Rolls
 
 // Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
@@ -7,12 +8,21 @@ open System
 let prompt msg processor = 
     printf "%s: " msg
     try
-        processor ((Console.ReadLine()).Trim())
+        Some (processor ((Console.ReadLine()).Trim()))
     with
         _ -> None
     
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" (prompt "What's your name?" (sprintf "Hello, %s" >> Some))
+    let rec loop() =
+        match prompt "Roll" (Parser.Parse) with
+        | Some(Parser.QuitCommand) -> ()
+        | Some(Parser.RollCommand(spec)) ->
+            printfn "%d" (Roller.Resolve spec)
+            loop()
+        | None ->
+            printfn "Sorry, I couldn't understand that"
+            loop()
+    loop()
     0 // return an integer exit code
 
