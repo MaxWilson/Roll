@@ -60,7 +60,6 @@
     <Compile Include="Statements.fs" />
     <Compile Include="Parser.fs" />
     <Compile Include="Lexer.fs" />
-    <Compile Include="DiceParser.fs" />
     <Compile Include="Roller.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />

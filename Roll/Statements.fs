@@ -1,15 +1,22 @@
 ﻿module Statements
 
-type RollSpec = Roll of dice : int * size : int * plus : int
-                | AtLeast of roll : RollSpec * target : int
-                | Max of rolls: RollSpec list
-                | Min of rolls: RollSpec list
-                | Sum of rolls: RollSpec list
-                | Repeat of count : int * rolls: RollSpec
+type RollPrimitive = 
+                | Roll of dice : int * size : int * plus : int
+                | Max of rolls: RollPrimitive list
+                | Min of rolls: RollPrimitive list
+                | Sum of rolls: RollPrimitive list
 
-type Command = QuitCommand | RollCommand of RollSpec
+type RollComplex =
+    | Simple of roll : RollPrimitive
+    | AtLeast of roll : RollComplex * target : int * highTarget : int
+    | Repeat of count : int * rolls: RollComplex
 
-let MakeSum(head, tail) = 
+type Command = 
+    | QuitCommand 
+    | RollCommand of RollComplex
+    
+
+let MakeSum(head, tail) : RollPrimitive = 
     match head with
     | Roll(x1, y1, z1) -> 
         match tail with
@@ -18,10 +25,10 @@ let MakeSum(head, tail) =
             Roll(max x1 x2, max y1 y2, z1 + z2)
         | Roll(x2, y2, z2) when y1 = y2 ->
             Roll(x1 + x2, y1, z1 + z2)
-        | Sum (lst : RollSpec list) -> Sum (List.append [head] lst)
+        | Sum (lst : RollPrimitive list) -> Sum (List.append [head] lst)
         | _ -> Sum [head; tail]
     | _ -> Sum [head; tail]
-let MakeSubtract(head, tail) = 
+let MakeSubtract(head, tail) : RollPrimitive = 
     match head with
     | Roll(x, y, z) -> 
         match tail with

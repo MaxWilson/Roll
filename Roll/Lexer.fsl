@@ -27,6 +27,7 @@ rule tokenstream = parse
 | "max" 	{ Parser.Max }
 | "adv" 	{ Parser.Advantage }
 | "disadv" 	{ Parser.Disadvantage }
+| "q" | "quit" { Parser.Quit }
 | int		{ Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }
 | plus		{ Parser.Plus }
 | minus		{ Parser.Minus }

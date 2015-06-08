@@ -11,6 +11,7 @@ open Microsoft.FSharp.Text.Parsing.ParseHelpers
 # 11 "Parser.fs"
 // This type is the type of tokens accepted by the parser
 type token = 
+  | Quit
   | QuestionMark
   | CloseParen
   | OpenParen
@@ -27,6 +28,7 @@ type token =
   | EOF
 // This type is used to give symbolic names to token indexes, useful for error messages
 type tokenId = 
+    | TOKEN_Quit
     | TOKEN_QuestionMark
     | TOKEN_CloseParen
     | TOKEN_OpenParen
@@ -47,7 +49,9 @@ type tokenId =
 type nonTerminalId = 
     | NONTERM__startstart
     | NONTERM_start
+    | NONTERM_Command
     | NONTERM_MultiRoll
+    | NONTERM_MaybeTest
     | NONTERM_Roll
     | NONTERM_RollList
     | NONTERM_PlusList
@@ -56,40 +60,42 @@ type nonTerminalId =
 // This function maps tokens to integer indexes
 let tagOfToken (t:token) = 
   match t with
-  | QuestionMark  -> 0 
-  | CloseParen  -> 1 
-  | OpenParen  -> 2 
-  | Comma  -> 3 
-  | Disadvantage  -> 4 
-  | Advantage  -> 5 
-  | Max  -> 6 
-  | Min  -> 7 
-  | Dot  -> 8 
-  | Minus  -> 9 
-  | Plus  -> 10 
-  | DSymbol  -> 11 
-  | Number _ -> 12 
-  | EOF  -> 13 
+  | Quit  -> 0 
+  | QuestionMark  -> 1 
+  | CloseParen  -> 2 
+  | OpenParen  -> 3 
+  | Comma  -> 4 
+  | Disadvantage  -> 5 
+  | Advantage  -> 6 
+  | Max  -> 7 
+  | Min  -> 8 
+  | Dot  -> 9 
+  | Minus  -> 10 
+  | Plus  -> 11 
+  | DSymbol  -> 12 
+  | Number _ -> 13 
+  | EOF  -> 14 
 
 // This function maps integer indexes to symbolic token ids
 let tokenTagToTokenId (tokenIdx:int) = 
   match tokenIdx with
-  | 0 -> TOKEN_QuestionMark 
-  | 1 -> TOKEN_CloseParen 
-  | 2 -> TOKEN_OpenParen 
-  | 3 -> TOKEN_Comma 
-  | 4 -> TOKEN_Disadvantage 
-  | 5 -> TOKEN_Advantage 
-  | 6 -> TOKEN_Max 
-  | 7 -> TOKEN_Min 
-  | 8 -> TOKEN_Dot 
-  | 9 -> TOKEN_Minus 
-  | 10 -> TOKEN_Plus 
-  | 11 -> TOKEN_DSymbol 
-  | 12 -> TOKEN_Number 
-  | 13 -> TOKEN_EOF 
-  | 16 -> TOKEN_end_of_input
-  | 14 -> TOKEN_error
+  | 0 -> TOKEN_Quit 
+  | 1 -> TOKEN_QuestionMark 
+  | 2 -> TOKEN_CloseParen 
+  | 3 -> TOKEN_OpenParen 
+  | 4 -> TOKEN_Comma 
+  | 5 -> TOKEN_Disadvantage 
+  | 6 -> TOKEN_Advantage 
+  | 7 -> TOKEN_Max 
+  | 8 -> TOKEN_Min 
+  | 9 -> TOKEN_Dot 
+  | 10 -> TOKEN_Minus 
+  | 11 -> TOKEN_Plus 
+  | 12 -> TOKEN_DSymbol 
+  | 13 -> TOKEN_Number 
+  | 14 -> TOKEN_EOF 
+  | 17 -> TOKEN_end_of_input
+  | 15 -> TOKEN_error
   | _ -> failwith "tokenTagToTokenId: bad token"
 
 /// This function maps production indexes returned in syntax errors to strings representing the non terminal that would be produced by that production
@@ -97,31 +103,36 @@ let prodIdxToNonTerminal (prodIdx:int) =
   match prodIdx with
     | 0 -> NONTERM__startstart 
     | 1 -> NONTERM_start 
-    | 2 -> NONTERM_MultiRoll 
-    | 3 -> NONTERM_MultiRoll 
-    | 4 -> NONTERM_Roll 
-    | 5 -> NONTERM_Roll 
-    | 6 -> NONTERM_Roll 
-    | 7 -> NONTERM_Roll 
-    | 8 -> NONTERM_RollList 
-    | 9 -> NONTERM_RollList 
-    | 10 -> NONTERM_PlusList 
-    | 11 -> NONTERM_PlusList 
-    | 12 -> NONTERM_PlusList 
-    | 13 -> NONTERM_SimpleRoll 
-    | 14 -> NONTERM_SimpleRoll 
-    | 15 -> NONTERM_SimpleRoll 
-    | 16 -> NONTERM_SimpleRoll 
+    | 2 -> NONTERM_Command 
+    | 3 -> NONTERM_Command 
+    | 4 -> NONTERM_MultiRoll 
+    | 5 -> NONTERM_MultiRoll 
+    | 6 -> NONTERM_MaybeTest 
+    | 7 -> NONTERM_MaybeTest 
+    | 8 -> NONTERM_MaybeTest 
+    | 9 -> NONTERM_Roll 
+    | 10 -> NONTERM_Roll 
+    | 11 -> NONTERM_Roll 
+    | 12 -> NONTERM_RollList 
+    | 13 -> NONTERM_RollList 
+    | 14 -> NONTERM_PlusList 
+    | 15 -> NONTERM_PlusList 
+    | 16 -> NONTERM_PlusList 
     | 17 -> NONTERM_SimpleRoll 
     | 18 -> NONTERM_SimpleRoll 
+    | 19 -> NONTERM_SimpleRoll 
+    | 20 -> NONTERM_SimpleRoll 
+    | 21 -> NONTERM_SimpleRoll 
+    | 22 -> NONTERM_SimpleRoll 
     | _ -> failwith "prodIdxToNonTerminal: bad production index"
 
-let _fsyacc_endOfInputTag = 16 
-let _fsyacc_tagOfErrorTerminal = 14
+let _fsyacc_endOfInputTag = 17 
+let _fsyacc_tagOfErrorTerminal = 15
 
 // This function gets the name of a token as a string
 let token_to_string (t:token) = 
   match t with 
+  | Quit  -> "Quit" 
   | QuestionMark  -> "QuestionMark" 
   | CloseParen  -> "CloseParen" 
   | OpenParen  -> "OpenParen" 
@@ -140,6 +151,7 @@ let token_to_string (t:token) =
 // This function gets the data carried by a token as an object
 let _fsyacc_dataOfToken (t:token) = 
   match t with 
+  | Quit  -> (null : System.Object) 
   | QuestionMark  -> (null : System.Object) 
   | CloseParen  -> (null : System.Object) 
   | OpenParen  -> (null : System.Object) 
@@ -154,232 +166,277 @@ let _fsyacc_dataOfToken (t:token) =
   | DSymbol  -> (null : System.Object) 
   | Number _fsyacc_x -> Microsoft.FSharp.Core.Operators.box _fsyacc_x 
   | EOF  -> (null : System.Object) 
-let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 0us; 2us; 2us; 65535us; 0us; 7us; 5us; 6us; 3us; 65535us; 9us; 10us; 11us; 12us; 16us; 17us; 4us; 65535us; 0us; 8us; 5us; 8us; 19us; 20us; 21us; 22us; 7us; 65535us; 0us; 18us; 5us; 18us; 9us; 15us; 11us; 15us; 16us; 15us; 19us; 18us; 21us; 18us; |]
-let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; 5us; 8us; 12us; 17us; |]
-let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 4us; 2us; 13us; 14us; 15us; 1us; 2us; 2us; 2us; 7us; 2us; 3us; 7us; 1us; 4us; 1us; 5us; 1us; 5us; 1us; 6us; 1us; 6us; 1us; 7us; 1us; 7us; 4us; 8us; 9us; 17us; 18us; 1us; 8us; 1us; 8us; 5us; 10us; 11us; 12us; 17us; 18us; 1us; 11us; 1us; 11us; 1us; 12us; 1us; 12us; 3us; 13us; 14us; 15us; 2us; 14us; 15us; 1us; 15us; 1us; 16us; 1us; 16us; 1us; 17us; 1us; 18us; |]
-let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 13us; 15us; 18us; 21us; 23us; 25us; 27us; 29us; 31us; 33us; 35us; 40us; 42us; 44us; 50us; 52us; 54us; 56us; 58us; 62us; 65us; 67us; 69us; 71us; 73us; |]
-let _fsyacc_action_rows = 30
-let _fsyacc_actionTableElements = [|4us; 32768us; 6us; 11us; 7us; 9us; 11us; 26us; 12us; 4us; 0us; 49152us; 1us; 32768us; 13us; 3us; 0us; 16385us; 2us; 16397us; 8us; 5us; 11us; 24us; 4us; 32768us; 6us; 11us; 7us; 9us; 11us; 26us; 12us; 23us; 1us; 16386us; 0us; 13us; 1us; 16387us; 0us; 13us; 0us; 16388us; 2us; 32768us; 11us; 26us; 12us; 23us; 0us; 16389us; 2us; 32768us; 11us; 26us; 12us; 23us; 0us; 16390us; 1us; 32768us; 12us; 14us; 0us; 16391us; 3us; 16393us; 3us; 16us; 4us; 29us; 5us; 28us; 2us; 32768us; 11us; 26us; 12us; 23us; 0us; 16392us; 4us; 16394us; 4us; 29us; 5us; 28us; 9us; 21us; 10us; 19us; 2us; 32768us; 11us; 26us; 12us; 23us; 0us; 16395us; 2us; 32768us; 11us; 26us; 12us; 23us; 0us; 16396us; 1us; 16397us; 11us; 24us; 1us; 16398us; 12us; 25us; 0us; 16399us; 1us; 32768us; 12us; 27us; 0us; 16400us; 0us; 16401us; 0us; 16402us; |]
-let _fsyacc_actionTableRowOffsets = [|0us; 5us; 6us; 8us; 9us; 12us; 17us; 19us; 21us; 22us; 25us; 26us; 29us; 30us; 32us; 33us; 37us; 40us; 41us; 46us; 49us; 50us; 53us; 54us; 56us; 58us; 59us; 61us; 62us; 63us; |]
-let _fsyacc_reductionSymbolCounts = [|1us; 2us; 3us; 1us; 1us; 2us; 2us; 3us; 3us; 1us; 1us; 3us; 3us; 1us; 2us; 3us; 2us; 2us; 2us; |]
-let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 2us; 3us; 3us; 3us; 3us; 4us; 4us; 5us; 5us; 5us; 6us; 6us; 6us; 6us; 6us; 6us; |]
-let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 16385us; 65535us; 65535us; 65535us; 65535us; 16388us; 65535us; 16389us; 65535us; 16390us; 65535us; 16391us; 65535us; 65535us; 16392us; 65535us; 65535us; 16395us; 65535us; 16396us; 65535us; 65535us; 16399us; 65535us; 16400us; 16401us; 16402us; |]
+let _fsyacc_gotos = [| 0us; 65535us; 1us; 65535us; 0us; 1us; 1us; 65535us; 0us; 2us; 1us; 65535us; 0us; 4us; 2us; 65535us; 0us; 9us; 7us; 8us; 2us; 65535us; 0us; 10us; 7us; 10us; 3us; 65535us; 17us; 18us; 19us; 20us; 22us; 23us; 4us; 65535us; 0us; 16us; 7us; 16us; 25us; 26us; 27us; 28us; 7us; 65535us; 0us; 24us; 7us; 24us; 17us; 21us; 19us; 21us; 22us; 21us; 25us; 24us; 27us; 24us; |]
+let _fsyacc_sparseGotoTableRowOffsets = [|0us; 1us; 3us; 5us; 7us; 10us; 13us; 17us; 22us; |]
+let _fsyacc_stateToProdIdxsTableElements = [| 1us; 0us; 1us; 0us; 1us; 1us; 1us; 1us; 1us; 2us; 1us; 3us; 4us; 4us; 17us; 18us; 19us; 1us; 4us; 1us; 4us; 1us; 5us; 3us; 6us; 7us; 8us; 2us; 7us; 8us; 2us; 7us; 8us; 1us; 8us; 1us; 8us; 1us; 8us; 1us; 9us; 1us; 10us; 1us; 10us; 1us; 11us; 1us; 11us; 4us; 12us; 13us; 21us; 22us; 1us; 12us; 1us; 12us; 5us; 14us; 15us; 16us; 21us; 22us; 1us; 15us; 1us; 15us; 1us; 16us; 1us; 16us; 3us; 17us; 18us; 19us; 2us; 18us; 19us; 1us; 19us; 1us; 20us; 1us; 20us; 1us; 21us; 1us; 22us; |]
+let _fsyacc_stateToProdIdxsTableRowOffsets = [|0us; 2us; 4us; 6us; 8us; 10us; 12us; 17us; 19us; 21us; 23us; 27us; 30us; 33us; 35us; 37us; 39us; 41us; 43us; 45us; 47us; 49us; 54us; 56us; 58us; 64us; 66us; 68us; 70us; 72us; 76us; 79us; 81us; 83us; 85us; 87us; |]
+let _fsyacc_action_rows = 36
+let _fsyacc_actionTableElements = [|5us; 32768us; 0us; 5us; 7us; 19us; 8us; 17us; 12us; 32us; 13us; 6us; 0us; 49152us; 1us; 32768us; 14us; 3us; 0us; 16385us; 0us; 16386us; 0us; 16387us; 2us; 16401us; 9us; 7us; 12us; 30us; 4us; 32768us; 7us; 19us; 8us; 17us; 12us; 32us; 13us; 29us; 0us; 16388us; 0us; 16389us; 1us; 16390us; 1us; 11us; 1us; 32768us; 13us; 12us; 1us; 16391us; 3us; 13us; 1us; 32768us; 13us; 14us; 1us; 32768us; 2us; 15us; 0us; 16392us; 0us; 16393us; 2us; 32768us; 12us; 32us; 13us; 29us; 0us; 16394us; 2us; 32768us; 12us; 32us; 13us; 29us; 0us; 16395us; 3us; 16397us; 4us; 22us; 5us; 35us; 6us; 34us; 2us; 32768us; 12us; 32us; 13us; 29us; 0us; 16396us; 4us; 16398us; 5us; 35us; 6us; 34us; 10us; 27us; 11us; 25us; 2us; 32768us; 12us; 32us; 13us; 29us; 0us; 16399us; 2us; 32768us; 12us; 32us; 13us; 29us; 0us; 16400us; 1us; 16401us; 12us; 30us; 1us; 16402us; 13us; 31us; 0us; 16403us; 1us; 32768us; 13us; 33us; 0us; 16404us; 0us; 16405us; 0us; 16406us; |]
+let _fsyacc_actionTableRowOffsets = [|0us; 6us; 7us; 9us; 10us; 11us; 12us; 15us; 20us; 21us; 22us; 24us; 26us; 28us; 30us; 32us; 33us; 34us; 37us; 38us; 41us; 42us; 46us; 49us; 50us; 55us; 58us; 59us; 62us; 63us; 65us; 67us; 68us; 70us; 71us; 72us; |]
+let _fsyacc_reductionSymbolCounts = [|1us; 2us; 1us; 1us; 3us; 1us; 1us; 3us; 6us; 1us; 2us; 2us; 3us; 1us; 1us; 3us; 3us; 1us; 2us; 3us; 2us; 2us; 2us; |]
+let _fsyacc_productionToNonTerminalTable = [|0us; 1us; 2us; 2us; 3us; 3us; 4us; 4us; 4us; 5us; 5us; 5us; 6us; 6us; 7us; 7us; 7us; 8us; 8us; 8us; 8us; 8us; 8us; |]
+let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 16385us; 16386us; 16387us; 65535us; 65535us; 16388us; 16389us; 65535us; 65535us; 65535us; 65535us; 65535us; 16392us; 16393us; 65535us; 16394us; 65535us; 16395us; 65535us; 65535us; 16396us; 65535us; 65535us; 16399us; 65535us; 16400us; 65535us; 65535us; 16403us; 65535us; 16404us; 16405us; 16406us; |]
 let _fsyacc_reductions ()  =    [| 
-# 168 "Parser.fs"
+# 180 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data :  Statements.RollSpec )) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data :  Statements.Command )) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
                       raise (Microsoft.FSharp.Text.Parsing.Accept(Microsoft.FSharp.Core.Operators.box _1))
                    )
                  : '_startstart));
-# 177 "Parser.fs"
+# 189 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Command)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 35 "Parser.fsy"
+                                          _1 
+                   )
+# 35 "Parser.fsy"
+                 :  Statements.Command ));
+# 200 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'MultiRoll)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 34 "Parser.fsy"
-                                            _1 
+# 38 "Parser.fsy"
+                                    Statements.RollCommand(_1) 
                    )
-# 34 "Parser.fsy"
-                 :  Statements.RollSpec ));
-# 188 "Parser.fs"
+# 38 "Parser.fsy"
+                 : 'Command));
+# 211 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
-            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'Roll)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 37 "Parser.fsy"
-                                          Statements.Repeat(_1, _3) 
+# 39 "Parser.fsy"
+                               Statements.QuitCommand 
                    )
-# 37 "Parser.fsy"
+# 39 "Parser.fsy"
+                 : 'Command));
+# 221 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
+            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'MaybeTest)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 42 "Parser.fsy"
+                                               Statements.Repeat(_1, _3) 
+                   )
+# 42 "Parser.fsy"
                  : 'MultiRoll));
-# 200 "Parser.fs"
+# 233 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'MaybeTest)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 43 "Parser.fsy"
+                                    _1 
+                   )
+# 43 "Parser.fsy"
+                 : 'MultiRoll));
+# 244 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Roll)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 38 "Parser.fsy"
-                               _1 
+# 46 "Parser.fsy"
+                               Statements.Simple _1 
                    )
-# 38 "Parser.fsy"
-                 : 'MultiRoll));
-# 211 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'PlusList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 41 "Parser.fsy"
-                                   _1 
-                   )
-# 41 "Parser.fsy"
-                 : 'Roll));
-# 222 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'RollList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 42 "Parser.fsy"
-                                       Statements.Min(_2) 
-                   )
-# 42 "Parser.fsy"
-                 : 'Roll));
-# 233 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'RollList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 43 "Parser.fsy"
-                                       Statements.Max(_2) 
-                   )
-# 43 "Parser.fsy"
-                 : 'Roll));
-# 244 "Parser.fs"
+# 46 "Parser.fsy"
+                 : 'MaybeTest));
+# 255 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Roll)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 44 "Parser.fsy"
-                                                   Statements.AtLeast(_1, _3) 
+# 47 "Parser.fsy"
+                                                   Statements.AtLeast(Statements.Simple (_1), _3, 20) 
                    )
-# 44 "Parser.fsy"
+# 47 "Parser.fsy"
+                 : 'MaybeTest));
+# 267 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'Roll)) in
+            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
+            let _5 = (let data = parseState.GetInput(5) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 48 "Parser.fsy"
+                                                                               Statements.AtLeast(Statements.Simple (_1), _3, _5) 
+                   )
+# 48 "Parser.fsy"
+                 : 'MaybeTest));
+# 280 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'PlusList)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 51 "Parser.fsy"
+                                   _1 
+                   )
+# 51 "Parser.fsy"
                  : 'Roll));
-# 256 "Parser.fs"
+# 291 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'RollList)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 52 "Parser.fsy"
+                                       Statements.Min(_2) 
+                   )
+# 52 "Parser.fsy"
+                 : 'Roll));
+# 302 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : 'RollList)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 53 "Parser.fsy"
+                                       Statements.Max(_2) 
+                   )
+# 53 "Parser.fsy"
+                 : 'Roll));
+# 313 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'RollList)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 47 "Parser.fsy"
+# 56 "Parser.fsy"
                                                     List.append [_1] _3 
                    )
-# 47 "Parser.fsy"
-                 : 'RollList));
-# 268 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 48 "Parser.fsy"
-                                     [_1] 
-                   )
-# 48 "Parser.fsy"
-                 : 'RollList));
-# 279 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 51 "Parser.fsy"
-                                     _1 
-                   )
-# 51 "Parser.fsy"
-                 : 'PlusList));
-# 290 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
-            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'PlusList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 52 "Parser.fsy"
-                                                   Statements.MakeSum(_1, _3) 
-                   )
-# 52 "Parser.fsy"
-                 : 'PlusList));
-# 302 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
-            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'PlusList)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
-# 53 "Parser.fsy"
-                                                    Statements.MakeSubtract(_1, _3) 
-                   )
-# 53 "Parser.fsy"
-                 : 'PlusList));
-# 314 "Parser.fs"
-        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
-            Microsoft.FSharp.Core.Operators.box
-                (
-                   (
 # 56 "Parser.fsy"
-                                      Statements.Roll(0, 0, _1) 
-                   )
-# 56 "Parser.fsy"
-                 : 'SimpleRoll));
+                 : 'RollList));
 # 325 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
 # 57 "Parser.fsy"
-                                            Statements.Roll(_1, 6, 0) 
+                                     [_1] 
                    )
 # 57 "Parser.fsy"
-                 : 'SimpleRoll));
+                 : 'RollList));
 # 336 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 60 "Parser.fsy"
+                                     _1 
+                   )
+# 60 "Parser.fsy"
+                 : 'PlusList));
+# 347 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
+            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'PlusList)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 61 "Parser.fsy"
+                                                   Statements.MakeSum(_1, _3) 
+                   )
+# 61 "Parser.fsy"
+                 : 'PlusList));
+# 359 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
+            let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : 'PlusList)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 62 "Parser.fsy"
+                                                    Statements.MakeSubtract(_1, _3) 
+                   )
+# 62 "Parser.fsy"
+                 : 'PlusList));
+# 371 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 65 "Parser.fsy"
+                                      Statements.Roll(0, 0, _1) 
+                   )
+# 65 "Parser.fsy"
+                 : 'SimpleRoll));
+# 382 "Parser.fs"
+        (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
+            Microsoft.FSharp.Core.Operators.box
+                (
+                   (
+# 66 "Parser.fsy"
+                                            Statements.Roll(_1, 6, 0) 
+                   )
+# 66 "Parser.fsy"
+                 : 'SimpleRoll));
+# 393 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             let _3 = (let data = parseState.GetInput(3) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 58 "Parser.fsy"
+# 67 "Parser.fsy"
                                                   Statements.Roll(_1, _3, 0) 
                    )
-# 58 "Parser.fsy"
+# 67 "Parser.fsy"
                  : 'SimpleRoll));
-# 348 "Parser.fs"
+# 405 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _2 = (let data = parseState.GetInput(2) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 59 "Parser.fsy"
+# 68 "Parser.fsy"
                                                 Statements.Roll(1, _2, 0) 
                    )
-# 59 "Parser.fsy"
+# 68 "Parser.fsy"
                  : 'SimpleRoll));
-# 359 "Parser.fs"
+# 416 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 60 "Parser.fsy"
+# 69 "Parser.fsy"
                                                    Statements.Max [_1; _1] 
                    )
-# 60 "Parser.fsy"
+# 69 "Parser.fsy"
                  : 'SimpleRoll));
-# 370 "Parser.fs"
+# 427 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : 'SimpleRoll)) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 61 "Parser.fsy"
+# 70 "Parser.fsy"
                                                      Statements.Min [_1; _1] 
                    )
-# 61 "Parser.fsy"
+# 70 "Parser.fsy"
                  : 'SimpleRoll));
 |]
-# 382 "Parser.fs"
+# 439 "Parser.fs"
 let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> = 
   { reductions= _fsyacc_reductions ();
     endOfInputTag = _fsyacc_endOfInputTag;
@@ -398,8 +455,8 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
                               match parse_error_rich with 
                               | Some f -> f ctxt
                               | None -> parse_error ctxt.Message);
-    numTerminals = 17;
+    numTerminals = 18;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf :  Statements.RollSpec  =
+let start lexer lexbuf :  Statements.Command  =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))
