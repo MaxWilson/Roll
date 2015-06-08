@@ -24,7 +24,7 @@ let main argv =
         match prompt "Roll" (Parse) with
         | Some(Statements.QuitCommand) -> ()
         | Some(Statements.RollCommand(rolls)) ->
-            printfn "%d" (Roller.Resolve rolls)
+            Roller.Resolve rolls (printfn "%s") (printfn "%d crits")
             loop()
         | None ->
             printfn "Sorry, I couldn't understand that"

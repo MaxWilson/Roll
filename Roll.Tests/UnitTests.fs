@@ -4,7 +4,8 @@ open Xunit
 open Statements
 open Xunit.Abstractions
 
-let parse input = match Program.Parse input with
+let parse input = 
+    match Program.Parse input with
     | RollCommand(roll) -> roll
     | _ -> failwith "Unexpected output"
 
@@ -30,7 +31,8 @@ type Unit(output: ITestOutputHelper) =
         
     [<Fact>]
     let ``Simple expressions should parse correctly``() =
-        let parse input = match Program.Parse input with
+        let parse input = 
+            match Program.Parse input with
             | RollCommand(Simple(roll)) -> roll
             | _ -> failwith "Unexpected output"
         let eq(lhs : RollPrimitive, rhs : RollPrimitive) =
@@ -67,7 +69,7 @@ type Unit(output: ITestOutputHelper) =
 
     [<Fact>]
     let ``Bad input will throw an exception``() =
-        Assert.Throws<System.Exception>(fun () -> parse("x") |> ignore)
+        Assert.Throws<System.Exception>(fun () -> parse("x") |> ignore) |> ignore
 
     [<Fact>]
     let ``Whitespace should be ignored``() =
@@ -75,7 +77,8 @@ type Unit(output: ITestOutputHelper) =
 
     [<Fact>]
     let ``Roller spot checks``() =
-        let resolve = Roller.Resolve << Simple
+        let resolve roll = 
+            Roller.ResolveComplex (Simple roll) ignore |> fst
         Assert.Equal(6, resolve <| Roll(6, 1, 0))
         let between lower upper n =
             let result = (lower <= n && n <= upper)
