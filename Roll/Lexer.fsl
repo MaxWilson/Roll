@@ -22,14 +22,11 @@ let minus		= '-'
 
 rule tokenstream = parse
 // --------------------------
-| letters 	{ match (LexBuffer<_>.LexemeString lexbuf).ToLower() with
-              | "d" -> Parser.DSymbol 
-              | "min" -> Parser.Min
-              | "max" -> Parser.Max
-              | "adv" -> Parser.Advantage
-              | "disadv" -> Parser.Disadvantage
-              | word -> failwithf "Unknown word: '%s'" word
-            }
+| "d"		{ Parser.DSymbol }
+| "min"		{ Parser.Min }
+| "max" 	{ Parser.Max }
+| "adv" 	{ Parser.Advantage }
+| "disadv" 	{ Parser.Disadvantage }
 | int		{ Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }
 | plus		{ Parser.Plus }
 | minus		{ Parser.Minus }

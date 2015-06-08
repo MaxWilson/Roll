@@ -167,7 +167,7 @@ let _fsyacc_immediateActions = [|65535us; 49152us; 65535us; 16385us; 65535us; 65
 let _fsyacc_reductions ()  =    [| 
 # 168 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
-            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data :  Rolls.RollSpec )) in
+            let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data :  Statements.RollSpec )) in
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
@@ -184,7 +184,7 @@ let _fsyacc_reductions ()  =    [|
                                             _1 
                    )
 # 34 "Parser.fsy"
-                 :  Rolls.RollSpec ));
+                 :  Statements.RollSpec ));
 # 188 "Parser.fs"
         (fun (parseState : Microsoft.FSharp.Text.Parsing.IParseState) ->
             let _1 = (let data = parseState.GetInput(1) in (Microsoft.FSharp.Core.Operators.unbox data : int)) in
@@ -193,7 +193,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 37 "Parser.fsy"
-                                          Rolls.Repeat(_1, _3) 
+                                          Statements.Repeat(_1, _3) 
                    )
 # 37 "Parser.fsy"
                  : 'MultiRoll));
@@ -226,7 +226,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 42 "Parser.fsy"
-                                       Rolls.Min(_2) 
+                                       Statements.Min(_2) 
                    )
 # 42 "Parser.fsy"
                  : 'Roll));
@@ -237,7 +237,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 43 "Parser.fsy"
-                                       Rolls.Max(_2) 
+                                       Statements.Max(_2) 
                    )
 # 43 "Parser.fsy"
                  : 'Roll));
@@ -249,7 +249,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 44 "Parser.fsy"
-                                                   Rolls.AtLeast(_1, _3) 
+                                                   Statements.AtLeast(_1, _3) 
                    )
 # 44 "Parser.fsy"
                  : 'Roll));
@@ -295,7 +295,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 52 "Parser.fsy"
-                                                   Rolls.MakeSum(_1, _3) 
+                                                   Statements.MakeSum(_1, _3) 
                    )
 # 52 "Parser.fsy"
                  : 'PlusList));
@@ -307,7 +307,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 53 "Parser.fsy"
-                                                    Rolls.MakeSubtract(_1, _3) 
+                                                    Statements.MakeSubtract(_1, _3) 
                    )
 # 53 "Parser.fsy"
                  : 'PlusList));
@@ -318,7 +318,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 56 "Parser.fsy"
-                                      Rolls.Roll(0, 0, _1) 
+                                      Statements.Roll(0, 0, _1) 
                    )
 # 56 "Parser.fsy"
                  : 'SimpleRoll));
@@ -329,7 +329,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 57 "Parser.fsy"
-                                            Rolls.Roll(_1, 6, 0) 
+                                            Statements.Roll(_1, 6, 0) 
                    )
 # 57 "Parser.fsy"
                  : 'SimpleRoll));
@@ -341,7 +341,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 58 "Parser.fsy"
-                                                Rolls.Roll(_1, _3, 0) 
+                                                  Statements.Roll(_1, _3, 0) 
                    )
 # 58 "Parser.fsy"
                  : 'SimpleRoll));
@@ -352,7 +352,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 59 "Parser.fsy"
-                                                Rolls.Roll(1, _2, 0) 
+                                                Statements.Roll(1, _2, 0) 
                    )
 # 59 "Parser.fsy"
                  : 'SimpleRoll));
@@ -363,7 +363,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 60 "Parser.fsy"
-                                                   Rolls.Max [_1; _1] 
+                                                   Statements.Max [_1; _1] 
                    )
 # 60 "Parser.fsy"
                  : 'SimpleRoll));
@@ -374,7 +374,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 61 "Parser.fsy"
-                                                     Rolls.Min [_1; _1] 
+                                                     Statements.Min [_1; _1] 
                    )
 # 61 "Parser.fsy"
                  : 'SimpleRoll));
@@ -401,5 +401,5 @@ let tables () : Microsoft.FSharp.Text.Parsing.Tables<_> =
     numTerminals = 17;
     productionToNonTerminalTable = _fsyacc_productionToNonTerminalTable  }
 let engine lexer lexbuf startState = (tables ()).Interpret(lexer, lexbuf, startState)
-let start lexer lexbuf :  Rolls.RollSpec  =
+let start lexer lexbuf :  Statements.RollSpec  =
     Microsoft.FSharp.Core.Operators.unbox ((tables ()).Interpret(lexer, lexbuf, 0))

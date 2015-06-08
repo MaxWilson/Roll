@@ -25,7 +25,7 @@
 
 // This is the type of the data produced by a successful reduction of the 'start'
 // symbol:
-%type < Rolls.RollSpec > start
+%type < Statements.RollSpec > start
 
 %%
 
@@ -34,14 +34,14 @@
 start: MultiRoll EOF { $1 }
 
 MultiRoll:
-	| Number Dot Roll { Rolls.Repeat($1, $3) }
+	| Number Dot Roll { Statements.Repeat($1, $3) }
 	| Roll { $1 }
-
+	
 Roll:
 	| PlusList { $1 }
-	| Min RollList { Rolls.Min($2) }
-	| Max RollList { Rolls.Max($2) }
-	| Roll QuestionMark Number { Rolls.AtLeast($1, $3) }
+	| Min RollList { Statements.Min($2) }
+	| Max RollList { Statements.Max($2) }
+	| Roll QuestionMark Number { Statements.AtLeast($1, $3) }
 	
 RollList:
 	| SimpleRoll Comma RollList { List.append [$1] $3 }
@@ -49,14 +49,14 @@ RollList:
 
 PlusList:
 	| SimpleRoll { $1 }
-	| SimpleRoll Plus PlusList { Rolls.MakeSum($1, $3) }
-	| SimpleRoll Minus PlusList { Rolls.MakeSubtract($1, $3) }
+	| SimpleRoll Plus PlusList { Statements.MakeSum($1, $3) }
+	| SimpleRoll Minus PlusList { Statements.MakeSubtract($1, $3) }
 
 SimpleRoll:
-	| Number						{ Rolls.Roll(0, 0, $1) }
-	| Number DSymbol				{ Rolls.Roll($1, 6, 0) }
-	| Number DSymbol Number	{ Rolls.Roll($1, $3, 0) }
-	| DSymbol Number 			    { Rolls.Roll(1, $2, 0) }
-	| SimpleRoll Advantage					{ Rolls.Max [$1; $1] }
-	| SimpleRoll Disadvantage				{ Rolls.Min [$1; $1] }
+	| Number						{ Statements.Roll(0, 0, $1) }
+	| Number DSymbol				{ Statements.Roll($1, 6, 0) }
+	| Number DSymbol Number			{ Statements.Roll($1, $3, 0) }
+	| DSymbol Number 			    { Statements.Roll(1, $2, 0) }
+	| SimpleRoll Advantage					{ Statements.Max [$1; $1] }
+	| SimpleRoll Disadvantage				{ Statements.Min [$1; $1] }
 

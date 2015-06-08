@@ -1,10 +1,8 @@
 module DiceParser
 
-open Rolls
+open Statements
 open System.Text.RegularExpressions
 open Microsoft.FSharp.Text.Lexing
-
-type Command = QuitCommand | RollCommand of RollSpec
 
 let ParseDice input =
     let lexbuf = LexBuffer<char>.FromString input

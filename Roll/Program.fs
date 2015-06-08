@@ -1,6 +1,6 @@
 ﻿module Program
 open System
-open Rolls
+open Statements
 
 // Learn more about F# at http://fsharp.net
 // See the 'F# Tutorial' project for more help.
@@ -16,8 +16,8 @@ let prompt msg processor =
 let main argv = 
     let rec loop() =
         match prompt "Roll" (DiceParser.Parse) with
-        | Some(DiceParser.QuitCommand) -> ()
-        | Some(DiceParser.RollCommand(spec)) ->
+        | Some(Statements.QuitCommand) -> ()
+        | Some(Statements.RollCommand(spec)) ->
             printfn "%d" (Roller.Resolve spec)
             loop()
         | None ->
