@@ -62,64 +62,64 @@ and tokenstream  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_t
 and _fslex_tokenstream  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 26 "Lexer.fsl"
+# 25 "Lexer.fsl"
                         Parser.DSymbol 
 # 67 "Lexer.fs"
           )
   | 1 -> ( 
-# 27 "Lexer.fsl"
+# 26 "Lexer.fsl"
                         Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
 # 72 "Lexer.fs"
           )
   | 2 -> ( 
-# 28 "Lexer.fsl"
+# 27 "Lexer.fsl"
                          Parser.Plus 
 # 77 "Lexer.fs"
           )
   | 3 -> ( 
-# 29 "Lexer.fsl"
+# 28 "Lexer.fsl"
                           Parser.Minus 
 # 82 "Lexer.fs"
           )
   | 4 -> ( 
-# 30 "Lexer.fsl"
+# 29 "Lexer.fsl"
                         Parser.Dot 
 # 87 "Lexer.fs"
           )
   | 5 -> ( 
-# 31 "Lexer.fsl"
+# 30 "Lexer.fsl"
                         Parser.Comma 
 # 92 "Lexer.fs"
           )
   | 6 -> ( 
-# 32 "Lexer.fsl"
+# 31 "Lexer.fsl"
                         Parser.OpenParen 
 # 97 "Lexer.fs"
           )
   | 7 -> ( 
-# 33 "Lexer.fsl"
+# 32 "Lexer.fsl"
                         Parser.CloseParen 
 # 102 "Lexer.fs"
           )
   | 8 -> ( 
-# 34 "Lexer.fsl"
+# 33 "Lexer.fsl"
                         Parser.QuestionMark 
 # 107 "Lexer.fs"
           )
   | 9 -> ( 
-# 35 "Lexer.fsl"
+# 34 "Lexer.fsl"
                          
-                             let word = (LexBuffer<_>.LexemeString lexbuf)
-                             match word.Trim().ToLower() with
-                             | "min" -> Parser.Min
-                             | "max" -> Parser.Max
-                             | "adv" -> Parser.Advantage
-                             | "disadv" -> Parser.Disadvantage
-                             | "q" | "quit" -> Parser.Quit
-                             | "d" -> Parser.DSymbol
-                             | "set" -> Parser.Set
-                             | _ -> Parser.Ident word   
-                           
+               let word = (LexBuffer<_>.LexemeString lexbuf)
+               match word.Trim().ToLower() with
+               | "min" -> Parser.Min
+               | "max" -> Parser.Max
+               | "adv" -> Parser.Advantage
+               | "disadv" -> Parser.Disadvantage
+               | "q" | "quit" -> Parser.Quit
+               | "d" -> Parser.DSymbol
+               | "set" -> Parser.Set
+               | "print" -> Parser.Print
+               | _ -> Parser.Ident word   
 # 123 "Lexer.fs"
           )
   | 10 -> ( 

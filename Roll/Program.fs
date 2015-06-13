@@ -39,7 +39,10 @@ let main argv =
                             | Some(ownerName) -> 
                                     match vals.TryGetValue(ownerName) with
                                             | true, v -> v
-                                            | false, _ -> !defaultOwner
+                                            | false, _ ->
+                                                let newOwner = Dictionary<string, string>()
+                                                vals.[ownerName] <- newOwner
+                                                newOwner 
     let rec loop() =
         match prompt "Roll" (Parse) with
         | Some(Statements.QuitCommand) -> ()
@@ -48,7 +51,7 @@ let main argv =
             loop()
         | Some(Statements.SetValue(owner, property, value)) 
             ->
-                let ownerObject = getObject owner                    
+                let ownerObject = getObject owner   
                 ownerObject.[property] <- value
                 loop()
         | Some(Statements.SetContext(name))

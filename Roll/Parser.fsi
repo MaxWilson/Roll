@@ -2,6 +2,7 @@
 module Parser
 type token = 
   | Ident of (string)
+  | Print
   | Set
   | Quit
   | QuestionMark
@@ -20,6 +21,7 @@ type token =
   | EOF
 type tokenId = 
     | TOKEN_Ident
+    | TOKEN_Print
     | TOKEN_Set
     | TOKEN_Quit
     | TOKEN_QuestionMark
@@ -44,6 +46,7 @@ type nonTerminalId =
     | NONTERM_Command
     | NONTERM_SetValue
     | NONTERM_Idents
+    | NONTERM_PrintValue
     | NONTERM_MultiRoll
     | NONTERM_MaybeTest
     | NONTERM_Roll

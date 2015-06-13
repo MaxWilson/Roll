@@ -32,17 +32,18 @@ rule tokenstream = parse
 | ")"		{ Parser.CloseParen }
 | "?"		{ Parser.QuestionMark }
 | word		{ 
-              let word = (LexBuffer<_>.LexemeString lexbuf)
-              match word.Trim().ToLower() with
-              | "min" -> Parser.Min
-              | "max" -> Parser.Max
-              | "adv" -> Parser.Advantage
-              | "disadv" -> Parser.Disadvantage
-              | "q" | "quit" -> Parser.Quit
-              | "d" -> Parser.DSymbol
-              | "set" -> Parser.Set
-              | _ -> Parser.Ident word   
-            }
+let word = (LexBuffer<_>.LexemeString lexbuf)
+match word.Trim().ToLower() with
+| "min" -> Parser.Min
+| "max" -> Parser.Max
+| "adv" -> Parser.Advantage
+| "disadv" -> Parser.Disadvantage
+| "q" | "quit" -> Parser.Quit
+| "d" -> Parser.DSymbol
+| "set" -> Parser.Set
+| "print" -> Parser.Print
+| _ -> Parser.Ident word   
+}
 // --------------------------
 | whitespace	{ tokenstream lexbuf }
 | newline	{ newline lexbuf; tokenstream lexbuf }
