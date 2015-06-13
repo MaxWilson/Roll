@@ -23,6 +23,8 @@
 %token CloseParen
 %token QuestionMark
 %token Quit
+%token Set
+%token <string> Ident
 
 // This is the type of the data produced by a successful reduction of the 'start'
 // symbol:
@@ -37,6 +39,17 @@ start: Command EOF { $1 }
 Command:
 	| MultiRoll { Statements.RollCommand($1) }
 	| Quit { Statements.QuitCommand }
+	| SetValue { $1 }
+
+SetValue:
+	| Set Ident Ident Idents { Statements.SetValue(Some $2, $3, $4) }
+	| Set Ident Idents { Statements.SetValue(None, $2, $3) }
+	| Set Ident Number { Statements.SetValue(None, $2, $3.ToString()) }
+	| Set Ident Ident Number { Statements.SetValue(Some $2, $3, $4.ToString()) }
+
+Idents:
+	| Ident				{ $1 }
+	| Ident Idents		{ $1 + " " + $2 }
 
 MultiRoll:
 	| Number Dot MaybeTest { Statements.Repeat($1, $3) }

@@ -14,7 +14,9 @@ type RollComplex =
 type Command = 
     | QuitCommand 
     | RollCommand of RollComplex
-    
+    | SetValue of owner : string option * property : string * value : string
+    | SetContext of owner : string
+    | PrintValues of owner : string option
 
 let MakeSum(head, tail) : RollPrimitive = 
     match head with

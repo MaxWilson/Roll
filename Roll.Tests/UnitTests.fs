@@ -3,11 +3,21 @@
 open Xunit
 open Statements
 open Xunit.Abstractions
+open Microsoft.FSharp.Text.Lexing
 
 let parse input = 
-    match Program.Parse input with
-    | RollCommand(roll) -> roll
-    | _ -> failwith "Unexpected output"
+    try
+        let parsed = Program.Parse input
+        match parsed with
+        | RollCommand(roll) -> roll
+        | _ -> failwith "Unexpected output"
+    with _ ->
+        let rec printTokens stream =
+            match Lexer.tokenstream stream with
+            | Parser.EOF -> ""
+            | token -> 
+                        (sprintf "(%A) " token) + (printTokens stream)
+        failwith <| sprintf "Could not parse '%s'" (input |> LexBuffer<char>.FromString |> printTokens)
 
 
 type Unit(output: ITestOutputHelper) =
@@ -32,9 +42,18 @@ type Unit(output: ITestOutputHelper) =
     [<Fact>]
     let ``Simple expressions should parse correctly``() =
         let parse input = 
-            match Program.Parse input with
-            | RollCommand(Simple(roll)) -> roll
-            | _ -> failwith "Unexpected output"
+            try
+                match Program.Parse input with
+                | RollCommand(Simple(roll)) -> roll
+                | _ -> failwith "Unexpected output"
+            with _ ->
+                let rec printTokens stream =
+                    match Lexer.tokenstream stream with
+                    | Parser.EOF -> ""
+                    | token -> 
+                                (sprintf "(%A) " token) + (printTokens stream)
+                failwith <| sprintf "Could not parse '%s'" (input |> LexBuffer<char>.FromString |> printTokens)
+
         let eq(lhs : RollPrimitive, rhs : RollPrimitive) =
             if lhs <> rhs then
                 output.WriteLine(sprintf "%A != %A" lhs rhs)
