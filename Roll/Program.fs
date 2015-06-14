@@ -76,9 +76,9 @@ let main argv =
                     | Some(name) ->
                         printfn "%s:" name
                     | None ->
-                        match vals |> Seq.tryFind (fun (k,v) -> v = dict) with
-                        | true, (k,v) ->
-                            printfn "%s:" k
+                        match vals |> Seq.tryFind (fun kv -> kv.Value = dict) with
+                        | Some(kv) ->
+                            printfn "%s:" kv.Key
                         | _ -> ()
                     for x in dict do
                         printfn "%s: %s" x.Key x.Value
