@@ -22,7 +22,7 @@ let rec ResolveComplex spec outputFunc =
     | Simple(roll) -> ResolveBase roll outputFunc, 0
     | Repeat(count, roll) ->
         let rolls = [for _ in 1..count -> ResolveComplex roll outputFunc]
-        sprintf "%A" rolls |> outputFunc
+        sprintf "%A" (rolls |> List.map fst) |> outputFunc
         Seq.sumBy fst rolls, Seq.sumBy snd rolls
     | AtLeast(roll, target, critThreshold) ->
         let roll, crits = ResolveComplex roll outputFunc
