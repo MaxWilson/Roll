@@ -50,6 +50,7 @@ Command:
 	| SetValue { $1 }
 	| PrintValue { $1 }
 	| Declare Ident String { Statements.SetValue(Some $2, "action", $3) }
+	| Declare Ident Ident { Statements.SetValue(Some $2, "action", $3) }
 	| Resolve { Statements.ResolveAction(None) }
 	| Resolve Ident { Statements.ResolveAction(Some $2) }
 	| Kill Ident { Statements.Delete($2) }
