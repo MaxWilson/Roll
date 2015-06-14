@@ -90,7 +90,13 @@ let main argv =
                     print name x
         | Some(ResolveAction(owner)) ->
             let ownerObject = getObject owner
-            ownerObject.Remove("action") |> ignore
+            if ownerObject.ContainsKey("action") then
+                ownerObject.["action_log"] <- 
+                    if ownerObject.ContainsKey("action_log") then
+                        sprintf "%s\n%s" (ownerObject.["action_log"]) (ownerObject.["action"])
+                    else
+                        (ownerObject.["action"])
+                ownerObject.Remove("action") |> ignore
             let next = vals |> Seq.sortBy (fun x -> x.Key)
                             |> Seq.tryFind (fun x -> 
                                              let props = x.Value
