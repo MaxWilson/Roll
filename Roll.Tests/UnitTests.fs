@@ -29,6 +29,15 @@ type Unit(output: ITestOutputHelper) =
         Assert.NotEqual(QuitCommand, parse "2d4")
 
     [<Fact>]
+    let ``Spot check SetValue commands``() =
+        let eq(lhs : Command, rhs : Command) =
+            if lhs <> rhs then
+                output.WriteLine(sprintf "%A != %A" lhs rhs)
+                Assert.Equal(lhs, rhs)
+        eq(SetValue(None, "status", "still here"), Program.Parse @"set status ""still here""")
+        eq(Delete "umberhulk_1", Program.Parse @"kill umberhulk_1")
+
+    [<Fact>]
     let ``Spot check sums``() =
         let eq(lhs : RollPrimitive, rhs : RollPrimitive) =
             if lhs <> rhs then

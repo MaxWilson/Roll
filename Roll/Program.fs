@@ -45,20 +45,17 @@ let main argv =
                                                 newOwner 
     let rec loop() =
         match prompt "Roll" (Parse) with
-        | Some(Statements.QuitCommand) -> ()
+        | Some(Statements.QuitCommand) -> Environment.Exit 0
         | Some(Statements.RollCommand(rolls)) ->
             Roller.Resolve rolls (printfn "%s") (printfn "%d crits")
-            loop()
         | Some(Statements.SetValue(owner, property, value)) 
             ->
                 let ownerObject = getObject owner   
                 ownerObject.[property] <- value
-                loop()
         | Some(Statements.SetContext(name))
             ->
                 let ownerObject = getObject (Some name)
                 defaultOwner := ownerObject
-                loop()
         | Some(Statements.AddValue(owner, property, value))
             ->
                 let ownerObject = getObject owner
@@ -70,7 +67,6 @@ let main argv =
                             | true, v -> v + value
                             | false, _ -> value
                         |> sprintf "%d"
-                loop()
         | Some(Statements.PrintValues(name))
             -> 
                 let print (name : string option) (dict : Dictionary<string, string>) =
@@ -86,10 +82,22 @@ let main argv =
                 else
                     let x = getObject name
                     print name x
-                loop()                        
+        | Some(ResolveAction(owner)) ->
+            let ownerObject = getObject owner
+            ownerObject.Remove("action") |> ignore
+            let next = vals |> Seq.sortBy (fun x -> x.Key)
+                            |> Seq.tryFind (fun x -> 
+                                             let props = x.Value
+                                             props.ContainsKey("action")
+                                          )
+            if next.IsSome then
+                printfn "%s: %s" next.Value.Key (next.Value.Value.["action"])
+                defaultOwner := next.Value.Value
+        | Some(Delete(name)) ->
+            vals.Remove(name) |> ignore
         | None ->
             printfn "Sorry, I couldn't understand that"            
-            loop()
+        loop()
     loop()
     0 // return an integer exit code
 

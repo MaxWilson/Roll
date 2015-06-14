@@ -26,7 +26,13 @@
 %token Set
 %token Print
 %token Add
+%token Sub
+%token Declare
+%token Resolve
+%token Kill
+%token Delete
 %token <string> Ident
+%token <string> String
 
 // This is the type of the data produced by a successful reduction of the 'start'
 // symbol:
@@ -43,15 +49,23 @@ Command:
 	| Quit { Statements.QuitCommand }
 	| SetValue { $1 }
 	| PrintValue { $1 }
+	| Declare Ident String { Statements.SetValue(Some $2, "action", $3) }
+	| Resolve { Statements.ResolveAction(None) }
+	| Resolve Ident { Statements.ResolveAction(Some $2) }
+	| Kill Ident { Statements.Delete($2) }
+	| Delete Ident { Statements.Delete($2) }
 
 SetValue:
 	| Set Ident { Statements.SetContext $2 }
 	| Set Ident Ident Idents { Statements.SetValue(Some $2, $3, $4) }
-	//| Set Ident Idents { Statements.SetValue(None, $2, $3) }
+	| Set Ident String { Statements.SetValue(None, $2, $3) }
+	| Set Ident Ident String { Statements.SetValue(Some $2, $3, $4) }
 	| Set Ident Number { Statements.SetValue(None, $2, $3.ToString()) }
 	| Set Ident Ident Number { Statements.SetValue(Some $2, $3, $4.ToString()) }
 	| Add Ident Ident Number { Statements.AddValue(Some $2, $3, $4) }
 	| Add Ident Number { Statements.AddValue(None, $2, $3) }
+	| Sub Ident Ident Number { Statements.AddValue(Some $2, $3, -$4) }
+	| Sub Ident Number { Statements.AddValue(None, $2, -$3) }
 
 Idents:
 	| Ident				{ $1 }

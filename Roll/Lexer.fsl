@@ -15,10 +15,11 @@ let newline (lexbuf: LexBuffer<_>) =
 let whitespace = [' ' '\t' ]
 let newline = ('\n' | '\r' '\n')
 let digit       = ['0'-'9']   
-let word		= ['a'-'z' 'A'-'Z']+
+let word		= (['a'-'z' 'A'-'Z']+ ('_' ['0'-'9']+)?)
 let int         = digit+   
 let plus		= '+'
 let minus		= '-'
+let string		= ('\"' [^'\"']* '\"')
 
 rule tokenstream = parse
 // --------------------------
@@ -31,6 +32,11 @@ rule tokenstream = parse
 | "("		{ Parser.OpenParen }
 | ")"		{ Parser.CloseParen }
 | "?"		{ Parser.QuestionMark }
+| string { 
+let str = (LexBuffer<_>.LexemeString lexbuf) 
+let str = str.Substring(1, str.Length - 2)
+Parser.String str
+}
 | word		{ 
 let word = (LexBuffer<_>.LexemeString lexbuf)
 match word.Trim().ToLower() with
@@ -43,6 +49,11 @@ match word.Trim().ToLower() with
 | "set" -> Parser.Set
 | "print" -> Parser.Print
 | "add" -> Parser.Add
+| "sub" -> Parser.Sub
+| "declare" -> Parser.Declare
+| "resolve" -> Parser.Resolve
+| "kill" -> Parser.Kill
+| "delete" -> Parser.Delete
 | _ -> Parser.Ident word   
 }
 // --------------------------

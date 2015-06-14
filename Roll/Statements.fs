@@ -18,6 +18,8 @@ type Command =
     | AddValue of owner : string option * property : string * value : int
     | SetContext of owner : string
     | PrintValues of owner : string option
+    | ResolveAction of owner : string option
+    | Delete of name : string
 
 let MakeSum(head, tail) : RollPrimitive = 
     match head with
