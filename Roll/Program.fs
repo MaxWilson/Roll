@@ -27,7 +27,9 @@ let prompt msg processor =
 
 let Parse input =     
     let parsed = input |> LexBuffer<char>.FromString |> Parser.start Lexer.tokenstream 
+    #if DEBUG
     printfn "%A" parsed
+    #endif
     parsed
 
 [<EntryPoint>]
@@ -73,7 +75,11 @@ let main argv =
                     match name with
                     | Some(name) ->
                         printfn "%s:" name
-                    | None -> ()
+                    | None ->
+                        match vals |> Seq.tryFind (fun (k,v) -> v = dict) with
+                        | true, (k,v) ->
+                            printfn "%s:" k
+                        | _ -> ()
                     for x in dict do
                         printfn "%s: %s" x.Key x.Value
                 if name = Some("all") then
