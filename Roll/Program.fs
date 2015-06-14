@@ -106,6 +106,7 @@ let main argv =
                 printfn "%s: %s" next.Value.Key (next.Value.Value.["action"])
                 defaultOwner := next.Value.Value
             else
+                defaultOwner := new Dictionary<string, string>()
                 printfn "Done with round"
         | Some(Delete(name)) ->
             vals.Remove(name) |> ignore
