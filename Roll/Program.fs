@@ -99,6 +99,8 @@ let main argv =
             if next.IsSome then
                 printfn "%s: %s" next.Value.Key (next.Value.Value.["action"])
                 defaultOwner := next.Value.Value
+            else
+                printfn "Done with round"
         | Some(Delete(name)) ->
             vals.Remove(name) |> ignore
         | None ->
