@@ -25,6 +25,7 @@
 %token Quit
 %token Set
 %token Print
+%token Add
 %token <string> Ident
 
 // This is the type of the data produced by a successful reduction of the 'start'
@@ -49,6 +50,8 @@ SetValue:
 	//| Set Ident Idents { Statements.SetValue(None, $2, $3) }
 	| Set Ident Number { Statements.SetValue(None, $2, $3.ToString()) }
 	| Set Ident Ident Number { Statements.SetValue(Some $2, $3, $4.ToString()) }
+	| Add Ident Ident Number { Statements.AddValue(Some $2, $3, $4) }
+	| Add Ident Number { Statements.AddValue(None, $2, $3) }
 
 Idents:
 	| Ident				{ $1 }

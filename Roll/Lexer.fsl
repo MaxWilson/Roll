@@ -42,6 +42,7 @@ match word.Trim().ToLower() with
 | "d" -> Parser.DSymbol
 | "set" -> Parser.Set
 | "print" -> Parser.Print
+| "add" -> Parser.Add
 | _ -> Parser.Ident word   
 }
 // --------------------------

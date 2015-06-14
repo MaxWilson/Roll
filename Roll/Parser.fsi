@@ -2,6 +2,7 @@
 module Parser
 type token = 
   | Ident of (string)
+  | Add
   | Print
   | Set
   | Quit
@@ -21,6 +22,7 @@ type token =
   | EOF
 type tokenId = 
     | TOKEN_Ident
+    | TOKEN_Add
     | TOKEN_Print
     | TOKEN_Set
     | TOKEN_Quit

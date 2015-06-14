@@ -15,6 +15,7 @@ type Command =
     | QuitCommand 
     | RollCommand of RollComplex
     | SetValue of owner : string option * property : string * value : string
+    | AddValue of owner : string option * property : string * value : int
     | SetContext of owner : string
     | PrintValues of owner : string option
 

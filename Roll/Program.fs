@@ -59,6 +59,18 @@ let main argv =
                 let ownerObject = getObject (Some name)
                 defaultOwner := ownerObject
                 loop()
+        | Some(Statements.AddValue(owner, property, value))
+            ->
+                let ownerObject = getObject owner
+                let oldValue = match ownerObject.TryGetValue(property) with
+                               | true, v -> v
+                               | false, _ -> "0"
+                ownerObject.[property] <- 
+                        match System.Int32.TryParse(oldValue) with
+                            | true, v -> v + value
+                            | false, _ -> value
+                        |> sprintf "%d"
+                loop()
         | Some(Statements.PrintValues(name))
             -> 
                 let print (name : string option) (dict : Dictionary<string, string>) =
