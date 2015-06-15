@@ -81,7 +81,7 @@ let main argv =
                             printfn "%s:" kv.Key
                         | _ -> ()
                     for x in dict do
-                        printfn "%s: %s" x.Key x.Value
+                        printfn "  %s: %s" x.Key x.Value
                 if name = Some("all") then
                     for x in vals do
                         print (Some x.Key) x.Value
