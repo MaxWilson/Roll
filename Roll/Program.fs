@@ -69,7 +69,7 @@ let main argv =
                             | true, v -> v + value
                             | false, _ -> value
                         |> sprintf "%d"
-        | Some(Statements.PrintValues(name))
+        | Some(Statements.PrintValues(name, property))
             -> 
                 let print (name : string option) (dict : Dictionary<string, string>) =
                     match name with
@@ -81,7 +81,8 @@ let main argv =
                             printfn "%s:" kv.Key
                         | _ -> ()
                     for x in dict do
-                        printfn "  %s: %s" x.Key x.Value
+                        if property.IsNone || property.Value = x.Key then
+                            printfn "  %s: %s" x.Key x.Value
                 if name = Some("all") then
                     for x in vals do
                         print (Some x.Key) x.Value

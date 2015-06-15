@@ -17,7 +17,7 @@ type Command =
     | SetValue of owner : string option * property : string * value : string
     | AddValue of owner : string option * property : string * value : int
     | SetContext of owner : string
-    | PrintValues of owner : string option
+    | PrintValues of owner : string option * property : string option
     | ResolveAction of owner : string option
     | Delete of name : string
 

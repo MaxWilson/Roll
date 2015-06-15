@@ -81,9 +81,13 @@ Idents:
 	| Ident Idents		{ $1 + " " + $2 }
 
 PrintValue:
-	| Print Ident { Statements.PrintValues (Some $2) }
-	| Print Ident Number { Statements.PrintValues (Some ($2 + $3.ToString())) }
-	| Print { Statements.PrintValues None }
+	| Print Ident { Statements.PrintValues (Some $2, None) }
+	| Print Ident Number { Statements.PrintValues (Some ($2 + $3.ToString()), None) }
+	| Print { Statements.PrintValues(None, None) }
+	| Print Ident Ident { Statements.PrintValues (Some $2, Some $3) }
+	| Print Ident Number Ident { Statements.PrintValues (Some ($2 + $3.ToString()), Some $4) }
+	| Print Ident String { Statements.PrintValues (Some $2, Some $3) }
+	| Print Ident Number String { Statements.PrintValues (Some ($2 + $3.ToString()), Some $4) }
 
 MultiRoll:
 	| Number Dot MaybeTest { Statements.Repeat($1, $3) }
