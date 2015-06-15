@@ -51,23 +51,31 @@ Command:
 	| PrintValue { $1 }
 	| Declare Ident String { Statements.SetValue(Some $2, "action", $3) }
 	| Declare Ident Ident { Statements.SetValue(Some $2, "action", $3) }
+	| Declare Ident Number String { Statements.SetValue(Some ($2 + $3.ToString()), "action", $4) }
+	| Declare Ident Number Ident { Statements.SetValue(Some ($2 + $3.ToString()), "action", $4) }
 	| Resolve { Statements.ResolveAction(None) }
 	| Resolve Ident { Statements.ResolveAction(Some $2) }
 	| Kill Ident { Statements.Delete($2) }
 	| Delete Ident { Statements.Delete($2) }
+	| Kill Ident Number { Statements.Delete($2 + $3.ToString()) }
+	| Delete Ident Number { Statements.Delete($2 + $3.ToString()) }
 
 SetValue:
 	| Set Ident { Statements.SetContext $2 }
-	| Set Ident Ident Idents { Statements.SetValue(Some $2, $3, $4) }
+	| Set String { Statements.SetContext $2 }
 	| Set Ident String { Statements.SetValue(None, $2, $3) }
 	| Set Ident Ident String { Statements.SetValue(Some $2, $3, $4) }
+	| Set Ident Ident Ident { Statements.SetValue(Some $2, $3, $4) }
 	| Set Ident Number { Statements.SetValue(None, $2, $3.ToString()) }
 	| Set Ident Ident Number { Statements.SetValue(Some $2, $3, $4.ToString()) }
 	| Add Ident Ident Number { Statements.AddValue(Some $2, $3, $4) }
 	| Add Ident Number { Statements.AddValue(None, $2, $3) }
 	| Sub Ident Ident Number { Statements.AddValue(Some $2, $3, -$4) }
 	| Sub Ident Number { Statements.AddValue(None, $2, -$3) }
-
+	| Set Ident Number Ident String { Statements.SetValue(Some ($2 + $3.ToString()), $4, $5) }
+	| Set Ident Number Ident Number { Statements.SetValue(Some ($2 + $3.ToString()), $4, $5.ToString()) }
+	| Add Ident Number Ident Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, $5) }
+	
 Idents:
 	| Ident				{ $1 }
 	| Ident Idents		{ $1 + " " + $2 }
