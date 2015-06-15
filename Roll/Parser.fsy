@@ -82,6 +82,7 @@ Idents:
 
 PrintValue:
 	| Print Ident { Statements.PrintValues (Some $2) }
+	| Print Ident Number { Statements.PrintValues (Some ($2 + $3.ToString())) }
 	| Print { Statements.PrintValues None }
 
 MultiRoll:
