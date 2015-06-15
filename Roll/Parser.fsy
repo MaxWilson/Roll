@@ -75,6 +75,7 @@ SetValue:
 	| Set Ident Number Ident String { Statements.SetValue(Some ($2 + $3.ToString()), $4, $5) }
 	| Set Ident Number Ident Number { Statements.SetValue(Some ($2 + $3.ToString()), $4, $5.ToString()) }
 	| Add Ident Number Ident Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, $5) }
+	| Sub Ident Number Ident Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, -$5) }
 	
 Idents:
 	| Ident				{ $1 }
