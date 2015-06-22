@@ -35,7 +35,10 @@ type Unit(output: ITestOutputHelper) =
                 output.WriteLine(sprintf "%A != %A" lhs rhs)
                 Assert.Equal(lhs, rhs)
         eq(SetValue(None, "status", "still here"), Program.Parse @"set status ""still here""")
+        eq(SetValue(Some "jack", "HP", "30"), 
+            Program.Parse("set jack HP 30"))
         eq(Delete "umberhulk_1", Program.Parse @"kill umberhulk_1")
+        eq(Delete "umberhulk1", Program.Parse @"kill umberhulk1")
 
     [<Fact>]
     let ``Spot check sums``() =
