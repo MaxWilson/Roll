@@ -5,6 +5,7 @@ type token =
   | Ident of (string)
   | Delete
   | Kill
+  | Delay
   | Resolve
   | Declare
   | Sub
@@ -31,6 +32,7 @@ type tokenId =
     | TOKEN_Ident
     | TOKEN_Delete
     | TOKEN_Kill
+    | TOKEN_Delay
     | TOKEN_Resolve
     | TOKEN_Declare
     | TOKEN_Sub
@@ -58,6 +60,7 @@ type nonTerminalId =
     | NONTERM__startstart
     | NONTERM_start
     | NONTERM_Command
+    | NONTERM_ID
     | NONTERM_SetValue
     | NONTERM_Idents
     | NONTERM_PrintValue

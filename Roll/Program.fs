@@ -36,7 +36,7 @@ let Parse input =
 let main argv = 
     let vals = Dictionary<string, Dictionary<string, string>>()
     let defaultOwner = ref (Dictionary<string, string>())
-    let getObject owner = match owner with
+    let getCreature owner = match owner with
                             | None -> !defaultOwner
                             | Some(ownerName) -> 
                                     match vals.TryGetValue(ownerName) with
@@ -45,6 +45,24 @@ let main argv =
                                                 let newOwner = Dictionary<string, string>()
                                                 vals.[ownerName] <- newOwner
                                                 newOwner 
+    let setNext() =
+        let next = vals |> Seq.sortBy (fun x -> 
+                                    // sort by initval ascending, then name
+                                    match x.Value.TryGetValue("initval") with
+                                    | true, v -> System.Int32.TryParse(v) |> snd |> (*)-1, x.Key
+                                    | false, _ -> 0, x.Key
+                                    )
+                    |> Seq.tryFind (fun x -> 
+                                        let props = x.Value
+                                        props.ContainsKey("action")
+                                    )
+        if next.IsSome then
+            printfn "%s: %s" next.Value.Key (next.Value.Value.["action"])
+            defaultOwner := next.Value.Value
+        else
+            defaultOwner := new Dictionary<string, string>()
+            printfn "Done with round"
+
     let rec loop() =
         match prompt "Roll" (Parse) with
         | Some(Statements.QuitCommand) -> Environment.Exit 0
@@ -52,15 +70,15 @@ let main argv =
             Roller.Resolve rolls (printfn "%s") (printfn "%d crits")
         | Some(Statements.SetValue(owner, property, value)) 
             ->
-                let ownerObject = getObject owner   
+                let ownerObject = getCreature owner   
                 ownerObject.[property] <- value
         | Some(Statements.SetContext(name))
             ->
-                let ownerObject = getObject (Some name)
+                let ownerObject = getCreature (Some name)
                 defaultOwner := ownerObject
         | Some(Statements.AddValue(owner, property, value))
             ->
-                let ownerObject = getObject owner
+                let ownerObject = getCreature owner
                 let oldValue = match ownerObject.TryGetValue(property) with
                                | true, v -> v
                                | false, _ -> "0"
@@ -87,10 +105,25 @@ let main argv =
                     for x in vals do
                         print (Some x.Key) x.Value
                 else
-                    let x = getObject name
+                    let x = getCreature name
                     print name x
+                printfn ""
+        | Some(Delay(name)) ->
+            let creature = getCreature name
+            let initval = (creature.TryGetValue("initval") |> snd |> System.Int32.TryParse |> snd)
+            creature.["initval"] <- (initval - 20).ToString()
+            setNext()
         | Some(ResolveAction(owner)) ->
-            let ownerObject = getObject owner
+            for creature in vals do
+                if not <| creature.Value.ContainsKey("initval") then
+                    let init = 
+                        match creature.Value.TryGetValue("init") with
+                        | true, v -> v |> System.Int32.TryParse |> snd
+                        | false, _ -> 0
+                    let initval = Roller.ResolveBase (Roll(1,20, init)) (fun x -> ())
+                    printfn "%s init: %d" creature.Key initval
+                    creature.Value.["initval"] <- initval.ToString() 
+            let ownerObject = getCreature owner
             if ownerObject.ContainsKey("action") then
                 ownerObject.["action_log"] <- 
                     if ownerObject.ContainsKey("action_log") then
@@ -98,17 +131,7 @@ let main argv =
                     else
                         (ownerObject.["action"])
                 ownerObject.Remove("action") |> ignore
-            let next = vals |> Seq.sortBy (fun x -> x.Key)
-                            |> Seq.tryFind (fun x -> 
-                                             let props = x.Value
-                                             props.ContainsKey("action")
-                                          )
-            if next.IsSome then
-                printfn "%s: %s" next.Value.Key (next.Value.Value.["action"])
-                defaultOwner := next.Value.Value
-            else
-                defaultOwner := new Dictionary<string, string>()
-                printfn "Done with round"
+            setNext()
         | Some(Delete(name)) ->
             vals.Remove(name) |> ignore
         | None ->

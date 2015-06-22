@@ -20,6 +20,7 @@ type Command =
     | PrintValues of owner : string option * property : string option
     | ResolveAction of owner : string option
     | Delete of name : string
+    | Delay of name: string option
 
 let MakeSum(head, tail) : RollPrimitive = 
     match head with

@@ -54,6 +54,7 @@ match word.Trim().ToLower() with
 | "resolve" -> Parser.Resolve
 | "kill" -> Parser.Kill
 | "delete" -> Parser.Delete
+| "wait" -> Parser.Delay
 | _ -> Parser.Ident word   
 }
 // --------------------------

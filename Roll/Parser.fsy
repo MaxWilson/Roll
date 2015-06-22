@@ -29,6 +29,7 @@
 %token Sub
 %token Declare
 %token Resolve
+%token Delay
 %token Kill
 %token Delete
 %token <string> Ident
@@ -49,16 +50,22 @@ Command:
 	| Quit { Statements.QuitCommand }
 	| SetValue { $1 }
 	| PrintValue { $1 }
-	| Declare Ident String { Statements.SetValue(Some $2, "action", $3) }
-	| Declare Ident Ident { Statements.SetValue(Some $2, "action", $3) }
-	| Declare Ident Number String { Statements.SetValue(Some ($2 + $3.ToString()), "action", $4) }
-	| Declare Ident Number Ident { Statements.SetValue(Some ($2 + $3.ToString()), "action", $4) }
+	| Delay { Statements.Delay None }
+	| Delay ID { Statements.Delay (Some $2) }
+	| Declare ID ID { Statements.SetValue(Some $2, "action", $3) }
 	| Resolve { Statements.ResolveAction(None) }
 	| Resolve Ident { Statements.ResolveAction(Some $2) }
 	| Kill Ident { Statements.Delete($2) }
 	| Delete Ident { Statements.Delete($2) }
+	| Kill String { Statements.Delete($2) }
+	| Delete String { Statements.Delete($2) }
 	| Kill Ident Number { Statements.Delete($2 + $3.ToString()) }
 	| Delete Ident Number { Statements.Delete($2 + $3.ToString()) }
+
+ID:
+	| Ident { $1 }
+	| Ident Number { $1 + ($2.ToString()) }
+	| String { $1 }
 
 SetValue:
 	| Set Ident { Statements.SetContext $2 }
@@ -83,11 +90,13 @@ Idents:
 
 PrintValue:
 	| Print Ident { Statements.PrintValues (Some $2, None) }
+	| Print String { Statements.PrintValues (Some $2, None) }
 	| Print Ident Number { Statements.PrintValues (Some ($2 + $3.ToString()), None) }
 	| Print { Statements.PrintValues(None, None) }
 	| Print Ident Ident { Statements.PrintValues (Some $2, Some $3) }
 	| Print Ident Number Ident { Statements.PrintValues (Some ($2 + $3.ToString()), Some $4) }
 	| Print Ident String { Statements.PrintValues (Some $2, Some $3) }
+	| Print String String { Statements.PrintValues (Some $2, Some $3) }
 	| Print Ident Number String { Statements.PrintValues (Some ($2 + $3.ToString()), Some $4) }
 
 MultiRoll:
