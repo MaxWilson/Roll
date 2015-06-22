@@ -57,7 +57,7 @@ let main argv =
                                         props.ContainsKey("action")
                                     )
         if next.IsSome then
-            printfn "%s (%s): %s" next.Value.Key (next.Value.Value.["initval"]) (next.Value.Value.["action"])
+            printfn "[%s] %s: %s" (next.Value.Value.["initval"]) next.Value.Key (next.Value.Value.["action"])
             defaultOwner := next.Value.Value
         else
             defaultOwner := new Dictionary<string, string>()
