@@ -131,6 +131,7 @@ let main argv =
                     else
                         (ownerObject.["action"])
                 ownerObject.Remove("action") |> ignore
+                ownerObject.Remove("initval") |> ignore
             setNext()
         | Some(Delete(name)) ->
             vals.Remove(name) |> ignore
