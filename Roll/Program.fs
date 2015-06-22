@@ -111,7 +111,7 @@ let main argv =
         | Some(Delay(name)) ->
             let creature = getCreature name
             let initval = (creature.TryGetValue("initval") |> snd |> System.Int32.TryParse |> snd)
-            creature.["initval"] <- (initval - 20).ToString()
+            creature.["initval"] <- (initval - 100).ToString()
             setNext()
         | Some(ResolveAction(owner)) ->
             for creature in vals do
