@@ -134,6 +134,17 @@ let main argv =
             setNext()
         | Some(Delete(name)) ->
             vals.Remove(name) |> ignore
+        | Some(Save(file)) ->
+            let json = Newtonsoft.Json.JsonConvert.SerializeObject(vals)
+            let file = if file.Contains(".json") then file else file + ".json"
+            System.IO.File.WriteAllText(file, json)
+        | Some(Load(file)) ->
+            let file = if file.Contains(".json") then file else file + ".json"
+            let json = System.IO.File.ReadAllText(file)
+            let newVals = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json)
+            for x in newVals do
+                vals.[x.Key] <- x.Value
+        
         | None ->
             printfn "Sorry, I couldn't understand that"            
         loop()

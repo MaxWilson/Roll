@@ -21,6 +21,8 @@ type Command =
     | ResolveAction of owner : string option
     | Delete of name : string
     | Delay of name: string option
+    | Load of file : string
+    | Save of file: string
 
 let MakeSum(head, tail) : RollPrimitive = 
     match head with

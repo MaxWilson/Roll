@@ -3,6 +3,8 @@ module Parser
 type token = 
   | String of (string)
   | Ident of (string)
+  | Save
+  | Load
   | Delete
   | Kill
   | Delay
@@ -30,6 +32,8 @@ type token =
 type tokenId = 
     | TOKEN_String
     | TOKEN_Ident
+    | TOKEN_Save
+    | TOKEN_Load
     | TOKEN_Delete
     | TOKEN_Kill
     | TOKEN_Delay
@@ -61,6 +65,7 @@ type nonTerminalId =
     | NONTERM_start
     | NONTERM_Command
     | NONTERM_ID
+    | NONTERM_IdentOrString
     | NONTERM_SetValue
     | NONTERM_PrintValue
     | NONTERM_MultiRoll

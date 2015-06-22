@@ -32,6 +32,8 @@
 %token Delay
 %token Kill
 %token Delete
+%token Load
+%token Save
 %token <string> Ident
 %token <string> String
 
@@ -57,21 +59,29 @@ Command:
 	| Resolve ID { Statements.ResolveAction(Some $2) }
 	| Kill ID { Statements.Delete($2) }
 	| Delete ID { Statements.Delete($2) }
+	| Load ID { Statements.Load $2 }
+	| Save ID { Statements.Save $2 }
 
 ID:
-	| Ident { $1 }
+	| IdentOrString { $1 }
 	| Ident Number { $1 + ($2.ToString()) }
+
+IdentOrString:
+	| Ident { $1 }
 	| String { $1 }
 
 SetValue:
 	| Set ID { Statements.SetContext $2 }
 	| Set ID ID { Statements.SetValue(None, $2, $3) }
 	| Set ID ID ID { Statements.SetValue(Some $2, $3, $4) }
-	| Add ID ID Number { Statements.AddValue(Some $2, $3, $4) }
-	| Add ID Number { Statements.AddValue(None, $2, $3) }
-	| Sub ID ID Number { Statements.AddValue(Some $2, $3, -$4) }
-	| Sub ID Number { Statements.AddValue(None, $2, -$3) }
-	
+	| Add ID IdentOrString Number { Statements.AddValue(Some $2, $3, $4) }
+	| Add Ident Number { Statements.AddValue(None, $2, $3) }
+	| Add Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), $4) }
+	| Add String Number { Statements.AddValue(None, $2, $3) }
+	| Sub IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, -$4) }
+	| Sub Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), -$4) }
+	| Sub IdentOrString Number { Statements.AddValue(None, $2, -$3) }
+
 PrintValue:
 	| Print ID { Statements.PrintValues (Some $2, None) }
 	| Print ID ID { Statements.PrintValues (Some $2, Some $3) }
