@@ -137,13 +137,19 @@ let main argv =
         | Some(Save(file)) ->
             let json = Newtonsoft.Json.JsonConvert.SerializeObject(vals)
             let file = if file.Contains(".json") then file else file + ".json"
-            System.IO.File.WriteAllText(file, json)
+            try
+                System.IO.File.WriteAllText(file, json)
+            with e ->
+                printfn "Error: %s" e.Message
         | Some(Load(file)) ->
             let file = if file.Contains(".json") then file else file + ".json"
-            let json = System.IO.File.ReadAllText(file)
-            let newVals = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json)
-            for x in newVals do
-                vals.[x.Key] <- x.Value
+            try
+                let json = System.IO.File.ReadAllText(file)
+                let newVals = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json)
+                for x in newVals do
+                    vals.[x.Key] <- x.Value
+            with e ->
+                printfn "Error: %s" e.Message
         
         | None ->
             printfn "Sorry, I couldn't understand that"            
