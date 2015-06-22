@@ -115,7 +115,7 @@ let main argv =
             setNext()
         | Some(ResolveAction(owner)) ->
             for creature in vals do
-                if not <| creature.Value.ContainsKey("initval") then
+                if creature.Value.ContainsKey("action") && (not <| creature.Value.ContainsKey("initval")) then
                     let init = 
                         match creature.Value.TryGetValue("init") with
                         | true, v -> v |> System.Int32.TryParse |> snd
