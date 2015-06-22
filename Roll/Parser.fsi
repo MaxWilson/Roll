@@ -62,7 +62,6 @@ type nonTerminalId =
     | NONTERM_Command
     | NONTERM_ID
     | NONTERM_SetValue
-    | NONTERM_Idents
     | NONTERM_PrintValue
     | NONTERM_MultiRoll
     | NONTERM_MaybeTest

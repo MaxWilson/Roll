@@ -145,7 +145,7 @@ and _fslex_tokenstream  _fslex_state lexbuf =
                | "resolve" -> Parser.Resolve
                | "kill" -> Parser.Kill
                | "delete" -> Parser.Delete
-               | "delay" -> Parser.Delay
+               | "wait" -> Parser.Delay
                | _ -> Parser.Ident word   
 # 150 "Lexer.fs"
           )
