@@ -78,7 +78,7 @@ SetValue:
 	| Set ID Ident Number { Statements.SetValue(Some $2, $3, $4.ToString()) }
 	| Set ID Ident Number ID { Statements.SetValue(Some $2, $3 + $4.ToString(), $5) }
 	| Set ID String ID { Statements.SetValue(Some $2, $3, $4) }
-	| Add IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, -$4) }
+	| Add IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, $4) }
 	| Add Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), $4) }
 	| Add Ident Number { Statements.AddValue(None, $2, $3) }
 	| Add String Number { Statements.AddValue(None, $2, $3) }

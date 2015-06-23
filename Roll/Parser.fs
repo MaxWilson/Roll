@@ -595,7 +595,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 81 "Parser.fsy"
-                                                                 Statements.AddValue(Some _2, _3, -_4) 
+                                                                 Statements.AddValue(Some _2, _3, _4) 
                    )
 # 81 "Parser.fsy"
                  : 'SetValue));
