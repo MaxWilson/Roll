@@ -45,6 +45,13 @@ let main argv =
                                                 let newOwner = Dictionary<string, string>()
                                                 vals.[ownerName] <- newOwner
                                                 newOwner 
+    let logAction (creature : Dictionary<string, string>) txt =
+        let actionTxt = 
+            if creature.ContainsKey("action_log") then
+                sprintf "%s\n    %s" (creature.["action_log"]) txt
+            else
+                txt
+        creature.["action_log"] <- actionTxt
     let setNext() =
         let next = vals |> Seq.sortBy (fun x -> 
                                     // sort by initval ascending, then name
@@ -113,7 +120,7 @@ let main argv =
             let initval = (creature.TryGetValue("initval") |> snd |> System.Int32.TryParse |> snd)
             creature.["initval"] <- (initval - 100).ToString()
             setNext()
-        | Some(ResolveAction(owner)) ->
+        | Some(ResolveAction(owner, txt)) ->
             for creature in vals do
                 if creature.Value.ContainsKey("action") && (not <| creature.Value.ContainsKey("initval")) then
                     let init = 
@@ -125,14 +132,16 @@ let main argv =
                     creature.Value.["initval"] <- initval.ToString() 
             let ownerObject = getCreature owner
             if ownerObject.ContainsKey("action") then
-                ownerObject.["action_log"] <- 
-                    if ownerObject.ContainsKey("action_log") then
-                        sprintf "%s\n%s" (ownerObject.["action_log"]) (ownerObject.["action"])
-                    else
-                        (ownerObject.["action"])
+                logAction ownerObject (ownerObject.["action"])
+                if txt.IsSome then
+                    logAction ownerObject txt.Value
+                    
                 ownerObject.Remove("action") |> ignore
                 ownerObject.Remove("initval") |> ignore
             setNext()
+        | Some(Log(name, txt)) ->
+            let creature = getCreature name
+            logAction creature txt
         | Some(Delete(name, property)) ->
             if property.IsNone then
                 vals.Remove(name) |> ignore

@@ -34,6 +34,8 @@
 %token Delete
 %token Load
 %token Save
+%token ResolveWith
+%token Log
 %token <string> Ident
 %token <string> String
 
@@ -56,8 +58,12 @@ Command:
 	| Delay ID { Statements.Delay (Some $2) }
 	| Declare ID { Statements.SetValue(None, "action", $2) }
 	| Declare ID ID { Statements.SetValue(Some $2, "action", $3) }
-	| Resolve { Statements.ResolveAction(None) }
-	| Resolve ID { Statements.ResolveAction(Some $2) }
+	| Resolve { Statements.ResolveAction(None, None) }
+	| Resolve ID { Statements.ResolveAction(Some $2, None) }
+	| ResolveWith ID { Statements.ResolveAction(None, Some $2) }
+	| ResolveWith ID ID { Statements.ResolveAction(Some $2, Some $3) }
+	| Log ID { Statements.Log(None, $2) }
+	| Log ID ID { Statements.Log(Some $2, $3) }
 	| Kill ID { Statements.Delete($2, None) }
 	| Delete ID { Statements.Delete($2, None) }
 	| Delete ID ID { Statements.Delete($2, Some $3) }

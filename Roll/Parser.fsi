@@ -3,6 +3,8 @@ module Parser
 type token = 
   | String of (string)
   | Ident of (string)
+  | Log
+  | ResolveWith
   | Save
   | Load
   | Delete
@@ -32,6 +34,8 @@ type token =
 type tokenId = 
     | TOKEN_String
     | TOKEN_Ident
+    | TOKEN_Log
+    | TOKEN_ResolveWith
     | TOKEN_Save
     | TOKEN_Load
     | TOKEN_Delete

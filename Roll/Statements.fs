@@ -18,11 +18,12 @@ type Command =
     | AddValue of owner : string option * property : string * value : int
     | SetContext of owner : string
     | PrintValues of owner : string option * property : string option
-    | ResolveAction of owner : string option
+    | ResolveAction of owner : string option * text : string option
     | Delete of name : string * property : string option
     | Delay of name: string option
     | Load of file : string
     | Save of file: string
+    | Log of name : string option * text : string
 
 let MakeSum(head, tail) : RollPrimitive = 
     match head with

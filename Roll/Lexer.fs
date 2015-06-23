@@ -143,33 +143,35 @@ and _fslex_tokenstream  _fslex_state lexbuf =
                | "sub" -> Parser.Sub
                | "declare" -> Parser.Declare
                | "resolve" -> Parser.Resolve
+               | "resolvewith" -> Parser.ResolveWith
+               | "log" -> Parser.Log
                | "kill" -> Parser.Kill
                | "delete" -> Parser.Delete
                | "wait" -> Parser.Delay
                | "loadfrom" -> Parser.Load
                | "saveto" -> Parser.Save
                | _ -> Parser.Ident word   
-# 152 "Lexer.fs"
+# 154 "Lexer.fs"
           )
   | 11 -> ( 
-# 63 "Lexer.fsl"
+# 65 "Lexer.fsl"
                               tokenstream lexbuf 
-# 157 "Lexer.fs"
+# 159 "Lexer.fs"
           )
   | 12 -> ( 
-# 64 "Lexer.fsl"
+# 66 "Lexer.fsl"
                            newline lexbuf; tokenstream lexbuf 
-# 162 "Lexer.fs"
+# 164 "Lexer.fs"
           )
   | 13 -> ( 
-# 66 "Lexer.fsl"
+# 68 "Lexer.fsl"
                           failwith ("ParseError" + LexBuffer<_>.LexemeString lexbuf) 
-# 167 "Lexer.fs"
+# 169 "Lexer.fs"
           )
   | 14 -> ( 
-# 67 "Lexer.fsl"
+# 69 "Lexer.fsl"
                           Parser.EOF 
-# 172 "Lexer.fs"
+# 174 "Lexer.fs"
           )
   | _ -> failwith "tokenstream"
 
