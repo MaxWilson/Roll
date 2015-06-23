@@ -133,8 +133,12 @@ let main argv =
                 ownerObject.Remove("action") |> ignore
                 ownerObject.Remove("initval") |> ignore
             setNext()
-        | Some(Delete(name)) ->
-            vals.Remove(name) |> ignore
+        | Some(Delete(name, property)) ->
+            if property.IsNone then
+                vals.Remove(name) |> ignore
+            else
+                let creature = getCreature (Some name)
+                creature.Remove(property.Value) |> ignore
         | Some(Save(file)) ->
             let json = Newtonsoft.Json.JsonConvert.SerializeObject(vals)
             let file = if file.Contains(".json") then file else file + ".json"

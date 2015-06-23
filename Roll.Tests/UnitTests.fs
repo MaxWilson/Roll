@@ -37,8 +37,9 @@ type Unit(output: ITestOutputHelper) =
         eq(SetValue(None, "status", "still here"), Program.Parse @"set status ""still here""")
         eq(SetValue(Some "jack", "HP", "30"), 
             Program.Parse("set jack HP 30"))
-        eq(Delete "umberhulk_1", Program.Parse @"kill umberhulk_1")
-        eq(Delete "umberhulk1", Program.Parse @"kill umberhulk1")
+        eq(Delete("umberhulk_1", None), Program.Parse @"kill umberhulk_1")
+        eq(Delete("umberhulk1", None), Program.Parse @"kill umberhulk1")
+        eq(Delete("umberhulk1", Some "stunned"), Program.Parse @"delete umberhulk1 stunned")
 
     [<Fact>]
     let ``Spot check sums``() =

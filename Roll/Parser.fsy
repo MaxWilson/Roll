@@ -54,11 +54,13 @@ Command:
 	| PrintValue { $1 }
 	| Delay { Statements.Delay None }
 	| Delay ID { Statements.Delay (Some $2) }
+	| Declare ID { Statements.SetValue(None, "action", $2) }
 	| Declare ID ID { Statements.SetValue(Some $2, "action", $3) }
 	| Resolve { Statements.ResolveAction(None) }
 	| Resolve ID { Statements.ResolveAction(Some $2) }
-	| Kill ID { Statements.Delete($2) }
-	| Delete ID { Statements.Delete($2) }
+	| Kill ID { Statements.Delete($2, None) }
+	| Delete ID { Statements.Delete($2, None) }
+	| Delete ID ID { Statements.Delete($2, Some $3) }
 	| Load ID { Statements.Load $2 }
 	| Save ID { Statements.Save $2 }
 

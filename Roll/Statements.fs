@@ -19,7 +19,7 @@ type Command =
     | SetContext of owner : string
     | PrintValues of owner : string option * property : string option
     | ResolveAction of owner : string option
-    | Delete of name : string
+    | Delete of name : string * property : string option
     | Delay of name: string option
     | Load of file : string
     | Save of file: string
