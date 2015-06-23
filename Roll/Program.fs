@@ -134,7 +134,7 @@ let main argv =
             if ownerObject.ContainsKey("action") then
                 logAction ownerObject (ownerObject.["action"])
                 if txt.IsSome then
-                    logAction ownerObject txt.Value
+                    logAction ownerObject ("  " + txt.Value)
                     
                 ownerObject.Remove("action") |> ignore
                 ownerObject.Remove("initval") |> ignore
