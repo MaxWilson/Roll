@@ -491,7 +491,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 67 "Parser.fsy"
-                                  Statements.Delete(_2, None) 
+                                  Statements.Delete(Some _2, None) 
                    )
 # 67 "Parser.fsy"
                  : 'Command));
@@ -502,7 +502,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 68 "Parser.fsy"
-                                    Statements.Delete(_2, None) 
+                                    Statements.Delete(None, Some _2) 
                    )
 # 68 "Parser.fsy"
                  : 'Command));
@@ -514,7 +514,7 @@ let _fsyacc_reductions ()  =    [|
                 (
                    (
 # 69 "Parser.fsy"
-                                       Statements.Delete(_2, Some _3) 
+                                       Statements.Delete(Some _2, Some _3) 
                    )
 # 69 "Parser.fsy"
                  : 'Command));

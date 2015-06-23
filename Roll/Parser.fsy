@@ -64,9 +64,9 @@ Command:
 	| ResolveWith ID ID { Statements.ResolveAction(Some $2, Some $3) }
 	| Log ID { Statements.Log(None, $2) }
 	| Log ID ID { Statements.Log(Some $2, $3) }
-	| Kill ID { Statements.Delete($2, None) }
-	| Delete ID { Statements.Delete($2, None) }
-	| Delete ID ID { Statements.Delete($2, Some $3) }
+	| Kill ID { Statements.Delete(Some $2, None) }
+	| Delete ID { Statements.Delete(None, Some $2) }
+	| Delete ID ID { Statements.Delete(Some $2, Some $3) }
 	| Load ID { Statements.Load $2 }
 	| Save ID { Statements.Save $2 }
 

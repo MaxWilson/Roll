@@ -144,9 +144,9 @@ let main argv =
             logAction creature txt
         | Some(Delete(name, property)) ->
             if property.IsNone then
-                vals.Remove(name) |> ignore
+                vals.Remove(name.Value) |> ignore
             else
-                let creature = getCreature (Some name)
+                let creature = getCreature name
                 creature.Remove(property.Value) |> ignore
         | Some(Save(file)) ->
             let json = Newtonsoft.Json.JsonConvert.SerializeObject(vals)
