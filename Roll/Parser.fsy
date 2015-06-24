@@ -59,7 +59,7 @@ Command:
 	| Declare ID { Statements.SetValue(None, "action", $2) }
 	| Declare ID ID { Statements.SetValue(Some $2, "action", $3) }
 	| Resolve { Statements.ResolveAction(None, None) }
-	| Resolve ID { Statements.ResolveAction(Some $2, None) }
+	| Resolve ID { Statements.ResolveAction(None, Some $2) }
 	| ResolveWith ID { Statements.ResolveAction(None, Some $2) }
 	| ResolveWith ID ID { Statements.ResolveAction(Some $2, Some $3) }
 	| Log ID { Statements.Log(None, $2) }
@@ -87,10 +87,12 @@ SetValue:
 	| Set ID Ident Number ID { Statements.SetValue(Some $2, $3 + $4.ToString(), $5) }
 	| Set ID String ID { Statements.SetValue(Some $2, $3, $4) }
 	| Add IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, $4) }
+	| Add Ident Number IdentOrString Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, $5) }
 	| Add Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), $4) }
 	| Add Ident Number { Statements.AddValue(None, $2, $3) }
 	| Add String Number { Statements.AddValue(None, $2, $3) }
 	| Sub IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, -$4) }
+	| Sub Ident Number IdentOrString Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, -$5) }
 	| Sub Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), -$4) }
 	| Sub Ident Number { Statements.AddValue(None, $2, -$3) }
 	| Sub String Number { Statements.AddValue(None, $2, -$3) }
