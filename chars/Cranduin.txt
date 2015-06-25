@@ -1,0 +1,44 @@
+Name: Cranduin the Lesser
+Age: 26. Physical age: 17--thanks wild magic :-/ Solid and muscular, 5'10, 170 lb.
+Background: Urchin (easygoing, loves kids, always kind)
+Race: Human
+Class: Paladin of Devotion 6/Wild Sorcerer 3
+Stats: ST 16 DX 10 CN 16 IN 11 WS 15 CH 19
+AC: 21 (Full armor/shield/defense style)
+HP: 79 (+14)
+To-hit: +7 (weapons) or +8 (spells)
+Spell DC: 16
+Attacks: Fire Bolt +7/2d10, Longsword 2x+6/1d8+3
+Feats: Lucky, +2 CH [Planned: +1 CH +1 DX, Mounted Combatant, Great Weapon Master]
+Metamagic: Quickened, Twinned
+Skills (+4): Athletics, Stealth, Medicine, Sleight of Hand, Perception, Disguise Kit, Thieves' Tools,
+             Common, Elvish
+Equipment: Plate Armor, Longsword, Shield, Longbow, Chain mail, explorer's pack
+XP: 63362
+
+Spells: [SP: 32 / 4 3 3; MP 3]
+C1. Prestidigitation
+C2. Fire Bolt
+C3. Mending
+C4. Blade ward
+1. Shield
+2. Expeditious Retreat (Force run!)
+3. Absorb Elements
+4. Blur
+[Planned: Shield, Absorb Elements, Mirror Image, Counterspell, Fireball, Expeditious Retreat, Hold Monster, Polymorph, Enlarge, Animate Objects]
+W. Jump
+W. Sleep
+W. See Invisibility
+W. Shatter
+[W. Blink, Lightning Bolt, Ice Storm, Stoneskin, Cone of Cold, Teleportation Circle]
+
+1. Bless
+2. Shield of Faith
+3. Magic Weapon
+4. Cure Wounds
+5. Find Steed
+6. Command
+P1. Sanctuary
+P1. Protection From Evil
+P2. Lesser Restoration
+P2. Zone of Truth

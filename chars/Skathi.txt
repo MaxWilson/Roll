@@ -1,0 +1,6 @@
+16 15 12 18 14 10
+
+Skathi the Witch Doctor
+Orcish Evoker 6
+Str 16 Dex 10 Con 14 Int 18 Wis 12 Cha 15 HP 38
+Feats: Inspiring Leader???

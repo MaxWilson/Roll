@@ -1,0 +1,5 @@
+[16 12 16 17 17 14]
+Heathen O'Connor - Assassin for Hire
+Human Urchin Eldritch Knight
+Str 16 Dex 18 Con 18 Int 16 Wis 14 Cha 12
+Sharpshooter [Planned: +2 Dex, Mobile, Lucky, Alert, ???, ???]

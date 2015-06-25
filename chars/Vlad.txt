@@ -1,0 +1,54 @@
+Name: Vladimir Nightbinder
+Background: Sage (Researcher)
+Race: Half-elf
+Class: Necromancer 7/Warlock 2 of Cthulhu
+Stats: ST 11 DX 17 CN 17 IN 18* WS 14* CH 20
+AC: 10 + 3 / 13 + 3
+HP: 66 (+14)
+To-hit: +8 (+9 with Warlock)
+Spell DC: 16 (17 for Warlock)
+Attacks: crossbow +7/1d8+3, Chill touch +8/2d8, Eldritch Blast 2x+9/1d10+5
+Feats: Inspiring Leader [Planned: Spell Sniper, +2 Int, Resilient (Con), Medium Armor]
+Invocations: Agonizing Blast, Eldritch Spear
+Skills (+4): Arcana, Investigation, Nature, Stealth, Perception, Intimidation,
+             Common, Elvish, Deep Speech, Draconic, Giant
+Equipment: Arcane Crystal, rope, explorer's pack
+Familiar: Vecna the Snowy Owl
+XP: 63362
+
+Spells (SP 4 + 38: 2 + 4 3 3 1, prep 11 of 18):
+
+C1. Mage Hand
+C2. Prestidigitation
+C3. Chill Touch
+C4. Acid Splash
+1. Longstrider
+2. Mage Armor
+3. Feather Fall
+4. Shield
+5. Expeditious Retreat
+6. Alarm
+7. Disguise Self
+8. Find Familiar
+9. Web
+10. Misty Step
+11. Suggestion
+12. Blindness
+13. Fireball
+14. Stinking Cloud
+15. Animate Dead
+16. Vampiric Touch
+17. Leomund's Tiny Hut
+18. Dimension Door
+19. Conjure Minor Elementals
+20. Evard's Black Tentacles
+21. Fly
+22. Absorb Energy
+23. Soul Shield
+Prep: 2 4 5 9 10 13 14 15 16 20
+
+C1. Light
+C2. Eldritch Blast
+1. Dissonant Whispers
+2. Expeditious Retreat
+3. Hex

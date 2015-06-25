@@ -1,0 +1,42 @@
+Name: Nevermore Jack, the Unbeliever
+Background: Outlander
+Race: Half-elf
+Class: Warlock 2 of Cthulhu/Lore Bard 8
+Stats: ST 8 DX 18 CN 16 IN 12 WS 12* CH 20*
+AC: 12 + 4 / 13 + 4
+HP: 84 (+14)
+To-hit: +8
+Spell DC: 16
+Attacks: Eldritch Blast 2x+9/1d10+5
+Feats: Spell Sniper (Fire Bolt), +2 CH [planned: Alert, Lucky?]
+Invocations: Agonizing Blast, Repelling Blast
+Skills (+4): Athletics, Survival, Insight, Persuasion, Deception, Intimidation, Stealth*, Perception*, Acrobatics, History,
+        Common, Elvish, Dwarvish, Terran
+Equipment: Crossbow, Studded Leather Armor, explorer's pack
+XP: 65112
+
+Spells: [2 warlock cantrips + 3 spells, 3 bard cantrips + 10 spells; SP 4 + 38; 2 + 4 3 3 1]
+C1. Blade Ward
+C2. Eldritch Blast
+1. Protection From Evil
+2. Expeditious Retreat
+3. Hex
+
+C1. Vicious Mockery
+C2. Minor Illusion
+C3. Message
+1. Healing Word
+2. Faerie Fire
+3. Enhance Ability
+4. Longstrider
+5. Freedom of Movement
+6. Blindness
+7. Dispel Magic
+8. Hypnotic Pattern
+9. Lesser Restoration
+10. Polymorph
+S. Conjure Animals
+S. Aura of Vitality
+[Planned Secrets: Counterspell, Bless, Evard's Black Tentacles, Wish, Circle of Power, Death Ward]
+
+C1. Fire Bolt
