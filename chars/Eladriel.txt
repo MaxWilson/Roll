@@ -4,7 +4,7 @@ Race: Wood Elf
 Class: Monk 10
 Stats: ST 8* DX 18* CN 16 IN 16 WS 18 CH 12
 AC: 18
-HP: 83 (+14)
+HP: 83 (+15)
 Move: 60'
 To-hit: +8
 Spell DC: 16

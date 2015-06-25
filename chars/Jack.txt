@@ -4,7 +4,7 @@ Race: Half-elf
 Class: Warlock 2 of Cthulhu/Lore Bard 8
 Stats: ST 8 DX 18 CN 16 IN 12 WS 12* CH 20*
 AC: 12 + 4 / 13 + 4
-HP: 84 (+14)
+HP: 83 (+15)
 To-hit: +8
 Spell DC: 16
 Attacks: Eldritch Blast 2x+9/1d10+5

@@ -1,10 +1,10 @@
 Name: Vladimir Nightbinder
 Background: Sage (Researcher)
 Race: Half-elf
-Class: Necromancer 7/Warlock 2 of Cthulhu
+Class: Necromancer 8/Warlock 2 of Cthulhu
 Stats: ST 11 DX 17 CN 17 IN 18* WS 14* CH 20
 AC: 10 + 3 / 13 + 3
-HP: 66 (+14)
+HP: 74 (+15)
 To-hit: +8 (+9 with Warlock)
 Spell DC: 16 (17 for Warlock)
 Attacks: crossbow +7/1d8+3, Chill touch +8/2d8, Eldritch Blast 2x+9/1d10+5
@@ -14,7 +14,7 @@ Skills (+4): Arcana, Investigation, Nature, Stealth, Perception, Intimidation,
              Common, Elvish, Deep Speech, Draconic, Giant
 Equipment: Arcane Crystal, rope, explorer's pack
 Familiar: Vecna the Snowy Owl
-XP: 63362
+XP: 66062
 
 Spells (SP 4 + 38: 2 + 4 3 3 1, prep 11 of 18):
 
@@ -45,7 +45,9 @@ C4. Acid Splash
 21. Fly
 22. Absorb Energy
 23. Soul Shield
-Prep: 2 4 5 9 10 13 14 15 16 20
+24. Dimension Door
+25. Otiluke's Resilient Sphere
+Prep: 2 4 5 10 13 14 15 16 20 21
 
 C1. Light
 C2. Eldritch Blast
