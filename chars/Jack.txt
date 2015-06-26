@@ -15,7 +15,7 @@ Skills (+4): Athletics, Survival, Insight, Persuasion, Deception, Intimidation, 
 Equipment: Crossbow, Studded Leather Armor, explorer's pack
 XP: 65112
 
-Spells: [2 warlock cantrips + 3 spells, 3 bard cantrips + 10 spells; SP 4 + 38; 2 + 4 3 3 1]
+Spells: [2 warlock cantrips + 3 spells, 3 bard cantrips + 10 spells; SP 4 + 46; 2 + 4 3 3 2]
 C1. Blade Ward
 C2. Eldritch Blast
 1. Protection From Evil
@@ -35,6 +35,7 @@ C3. Message
 8. Hypnotic Pattern
 9. Lesser Restoration
 10. Polymorph
+11. Confusion
 S. Conjure Animals
 S. Aura of Vitality
 [Planned Secrets: Counterspell, Bless, Evard's Black Tentacles, Wish, Circle of Power, Death Ward]

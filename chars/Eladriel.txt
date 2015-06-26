@@ -5,7 +5,7 @@ Class: Monk 10
 Stats: ST 8* DX 18* CN 16 IN 16 WS 18 CH 12
 AC: 18
 HP: 83 (+15)
-Move: 60'
+Move: 65'
 To-hit: +8
 Spell DC: 16
 Attacks: longbow 2x+8/1d8+4, staff +8/1d8+4, unarmed +8/1d6+4 
