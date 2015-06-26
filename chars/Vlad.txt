@@ -14,7 +14,7 @@ Skills (+4): Arcana, Investigation, Nature, Stealth, Perception, Intimidation,
              Common, Elvish, Deep Speech, Draconic, Giant
 Equipment: Arcane Crystal, rope, explorer's pack
 Familiar: Vecna the Snowy Owl
-XP: 71662
+XP: 74362
 
 Spells (SP 4 + 44: 2 + 4 3 3 2, prep 11 of 18):
 

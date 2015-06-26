@@ -9,7 +9,6 @@ let rec ResolveBase spec outputFunc =
         [for _ in 1..dice -> 1 + r.Next(size)] |> Seq.sum |> (+) plus
     | Sum rolls ->
         let rolls = [for roll in rolls -> ResolveBase roll outputFunc]
-        sprintf "%A" rolls |> outputFunc
         Seq.sum rolls
     | Min rolls ->
         let rolls = [for roll in rolls -> ResolveBase roll outputFunc]
@@ -26,8 +25,16 @@ let rec ResolveComplex spec outputFunc =
         Seq.sumBy fst rolls, Seq.sumBy snd rolls
     | AtLeast(roll, target, critThreshold) ->
         let roll, crits = ResolveComplex roll outputFunc
-        let hit = if roll >= target then 1 else 0
-        let crits = if roll >= critThreshold then crits + 1 else crits
+        let hit, crits =
+            if roll >= critThreshold then
+                outputFunc (sprintf "Crit!   %d" roll)
+                1, crits + 1
+            elif roll >= target then
+                outputFunc (sprintf "Success %d" roll)
+                1, crits
+            else
+                outputFunc (sprintf "Failure %d" roll)
+                0, crits
         hit, crits
 let Resolve spec output critOutput =
     let critCounter = ref 0
