@@ -4,10 +4,15 @@ open Xunit
 open Statements
 open Xunit.Abstractions
 open Microsoft.FSharp.Text.Lexing
+open RollLib
+open System
+open System.IO
+
+let interpreter = new Interpreter(printf "%s", Console.ReadLine, File.WriteAllText, File.ReadAllText)
 
 let parse input = 
     try
-        let parsed = Program.Parse input
+        let parsed = interpreter.Parse input
         match parsed with
         | RollCommand(roll) -> roll
         | _ -> failwith "Unexpected output"
@@ -23,23 +28,23 @@ let parse input =
 type Unit(output: ITestOutputHelper) =
     [<Fact>]
     let ``Quit should return none``() = 
-        let parse = Program.Parse
+        let parse = interpreter.Parse
         Assert.Equal(QuitCommand, parse "quit")
         Assert.Equal(QuitCommand, parse "q")
         Assert.NotEqual(QuitCommand, parse "2d4")
-
+        
     [<Fact>]
     let ``Spot check SetValue commands``() =
         let eq(lhs : Command, rhs : Command) =
             if lhs <> rhs then
                 output.WriteLine(sprintf "%A != %A" lhs rhs)
                 Assert.Equal(lhs, rhs)
-        eq(SetValue(None, "status", "still here"), Program.Parse @"set status ""still here""")
+        eq(SetValue(None, "status", "still here"), interpreter.Parse @"set status ""still here""")
         eq(SetValue(Some "jack", "HP", "30"), 
-            Program.Parse("set jack HP 30"))
-        eq(Delete(Some "umberhulk_1", None), Program.Parse @"kill umberhulk_1")
-        eq(Delete(Some "umberhulk1", None), Program.Parse @"kill umberhulk1")
-        eq(Delete(Some "umberhulk1", Some "stunned"), Program.Parse @"delete umberhulk1 stunned")
+            interpreter.Parse("set jack HP 30"))
+        eq(Delete(Some "umberhulk_1", None), interpreter.Parse @"kill umberhulk_1")
+        eq(Delete(Some "umberhulk1", None), interpreter.Parse @"kill umberhulk1")
+        eq(Delete(Some "umberhulk1", Some "stunned"), interpreter.Parse @"delete umberhulk1 stunned")
 
     [<Fact>]
     let ``Spot check sums``() =
@@ -56,7 +61,7 @@ type Unit(output: ITestOutputHelper) =
     let ``Simple expressions should parse correctly``() =
         let parse input = 
             try
-                match Program.Parse input with
+                match interpreter.Parse input with
                 | RollCommand(Simple(roll)) -> roll
                 | _ -> failwith "Unexpected output"
             with _ ->
@@ -106,7 +111,7 @@ type Unit(output: ITestOutputHelper) =
     [<Fact>]
     let ``Whitespace should be ignored``() =
         ()
-
+        
     [<Fact>]
     let ``Roller spot checks``() =
         let resolve roll = 

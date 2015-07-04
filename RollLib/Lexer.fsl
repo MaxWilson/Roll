@@ -1,0 +1,69 @@
+{
+
+module Lexer
+
+// Opens methods related to fslex.exe
+open Microsoft.FSharp.Text.Lexing
+open System
+
+let newline (lexbuf: LexBuffer<_>) = 
+  lexbuf.StartPos <- lexbuf.StartPos.NextLine
+
+}
+
+// Regular expressions
+let whitespace = [' ' '\t' ]
+let newline = ('\n' | '\r' '\n')
+let digit       = ['0'-'9']   
+let word		= (['a'-'z' 'A'-'Z']+ ('_' ['0'-'9']+)?)
+let int         = digit+   
+let plus		= '+'
+let minus		= '-'
+let string		= ('\"' [^'\"']* '\"')
+
+rule tokenstream = parse
+// --------------------------
+| "d"		{ Parser.DSymbol }
+| int		{ Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }
+| plus		{ Parser.Plus }
+| minus		{ Parser.Minus }
+| "."		{ Parser.Dot }
+| ","		{ Parser.Comma }
+| "("		{ Parser.OpenParen }
+| ")"		{ Parser.CloseParen }
+| "?"		{ Parser.QuestionMark }
+| string { 
+let str = (LexBuffer<_>.LexemeString lexbuf) 
+let str = str.Substring(1, str.Length - 2)
+Parser.String str
+}
+| word		{ 
+let word = (LexBuffer<_>.LexemeString lexbuf)
+match word.Trim().ToLower() with
+| "min" -> Parser.Min
+| "max" -> Parser.Max
+| "adv" -> Parser.Advantage
+| "disadv" -> Parser.Disadvantage
+| "q" | "quit" -> Parser.Quit
+| "d" -> Parser.DSymbol
+| "set" -> Parser.Set
+| "print" -> Parser.Print
+| "add" -> Parser.Add
+| "sub" -> Parser.Sub
+| "declare" -> Parser.Declare
+| "resolve" -> Parser.Resolve
+| "resolvewith" -> Parser.ResolveWith
+| "log" -> Parser.Log
+| "kill" -> Parser.Kill
+| "delete" -> Parser.Delete
+| "wait" -> Parser.Delay
+| "loadfrom" -> Parser.Load
+| "saveto" -> Parser.Save
+| _ -> Parser.Ident word   
+}
+// --------------------------
+| whitespace	{ tokenstream lexbuf }
+| newline	{ newline lexbuf; tokenstream lexbuf }
+// --------------------------
+| _    		{ failwith ("ParseError" + LexBuffer<_>.LexemeString lexbuf) }
+| eof   	{ Parser.EOF }
