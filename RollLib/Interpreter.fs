@@ -13,7 +13,7 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
         | token -> print <| sprintf "(%A) " token
                    printTokens stream
 
-    let prompt msg processor = 
+    member this.prompt msg processor = 
         print <| sprintf "%s: " msg
         let input : string = (readline()).Trim()
         try
@@ -71,7 +71,7 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
 
         let rec loop() =
             let mutable doLoop = true
-            match prompt "Roll" (this.Parse) with
+            match this.prompt "Roll" (this.Parse) with
             | Some(Statements.QuitCommand) -> doLoop <- false
             | Some(Statements.RollCommand(rolls)) ->
                 Roller.Resolve rolls (print << sprintf "%s\n") (print << sprintf "%d crits\n")

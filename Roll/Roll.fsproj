@@ -52,7 +52,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -60,19 +60,16 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Statements.fs" />
-    <FsYacc Include="Parser.fsy">
-      <OtherFlags>--module Parser</OtherFlags>
-    </FsYacc>
-    <FsLex Include="Lexer.fsl">
-      <OtherFlags>--unicode</OtherFlags>
-    </FsLex>
-    <Compile Include="Parser.fs" />
-    <Compile Include="Lexer.fs" />
-    <Compile Include="Roller.fs" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RollLib\RollLib.fsproj">
+      <Name>RollLib</Name>
+      <Project>{407087ad-6041-4434-bcf0-ac50aabbaa11}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
