@@ -10,7 +10,7 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
     let rec printTokens stream =
         match Lexer.tokenstream stream with
         | Parser.EOF -> ()
-        | token -> print <| sprintf "(%A) " token
+        | token -> print <| sprintf "(%A) \n" token
                    printTokens stream
 
     member this.prompt msg processor = 
@@ -99,15 +99,15 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
                     let printvals (name : string option) (dict : Dictionary<string, string>) =
                         match name with
                         | Some(name) ->
-                            print <| sprintf "%s:" name
+                            print <| sprintf "%s:\n" name
                         | None ->
                             match vals |> Seq.tryFind (fun kv -> kv.Value = dict) with
                             | Some(kv) ->
-                                print <| sprintf "%s:" kv.Key
+                                print <| sprintf "%s:\n" kv.Key
                             | _ -> ()
                         for x in dict do
                             if property.IsNone || property.Value = x.Key then
-                                print <| sprintf "  %s: %s" x.Key x.Value
+                                print <| sprintf "  %s: %s\n" x.Key x.Value
                     if name = Some("all") then
                         for x in vals do
                             printvals (Some x.Key) x.Value
@@ -154,7 +154,7 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
                 try
                     writeFile(file, json)
                 with e ->
-                    print <| sprintf "Error: %s" e.Message
+                    print <| sprintf "Error: %s\n" e.Message
             | Some(Load(file)) ->
                 let file = if file.Contains(".json") then file else file + ".json"
                 try
@@ -163,7 +163,7 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
                     for x in newVals do
                         vals.[x.Key] <- x.Value
                 with e ->
-                    print <| sprintf "Error: %s" e.Message
+                    print <| sprintf "Error: %s\n" e.Message
         
             | None ->
                 print "Sorry, I couldn't understand that\n"            
