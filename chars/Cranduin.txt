@@ -14,13 +14,14 @@ Metamagic: Quickened, Twinned
 Skills (+4): Athletics, Stealth, Medicine, Sleight of Hand, Perception, Disguise Kit, Thieves' Tools,
              Common, Elvish
 Equipment: Plate Armor, Longsword, Shield, Longbow, Chain mail, explorer's pack
-XP: 74362
+XP: 78262
 
 Spells: [SP: 38 / 4 3 3 1; MP 4]
 C1. Prestidigitation
 C2. Fire Bolt
 C3. Mending
 C4. Blade ward
+C5. Ray of Frost
 1. Shield
 2. Expeditious Retreat (Force run!)
 3. Absorb Elements

@@ -36,6 +36,8 @@
 %token Save
 %token ResolveWith
 %token Log
+%token Slash
+%token Star
 %token <string> Ident
 %token <string> String
 
@@ -112,10 +114,15 @@ MaybeTest:
 	| Roll QuestionMark Number OpenParen Number CloseParen { Statements.AtLeast(Statements.Simple ($1), $3, $5) }
 	
 Roll:
-	| PlusList { $1 }
+	| MultList { $1 }
 	| Min RollList { Statements.Min($2) }
 	| Max RollList { Statements.Max($2) }
 	
+MultList:
+	| PlusList { $1 }
+	| PlusList Star Number { Statements.Times($1, $3) }
+	| PlusList Slash Number { Statements.Divide($1, $3) }
+
 RollList:
 	| SimpleRoll Comma RollList { List.append [$1] $3 }
 	| SimpleRoll { [$1] }
@@ -132,4 +139,5 @@ SimpleRoll:
 	| DSymbol Number 			    { Statements.Roll(1, $2, 0) }
 	| SimpleRoll Advantage					{ Statements.Max [$1; $1] }
 	| SimpleRoll Disadvantage				{ Statements.Min [$1; $1] }
+	
 

@@ -16,6 +16,10 @@ let rec ResolveBase spec outputFunc =
     | Max rolls ->
         let rolls = [for roll in rolls -> ResolveBase roll outputFunc]
         Seq.max rolls
+    | Divide(roll, num) ->
+        (ResolveBase roll outputFunc)/num
+    | Times(roll, num) ->
+        (ResolveBase roll outputFunc) * num
 let rec ResolveComplex spec outputFunc =
     match spec with
     | Simple(roll) -> ResolveBase roll outputFunc, 0

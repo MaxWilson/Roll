@@ -56,6 +56,16 @@ type Unit(output: ITestOutputHelper) =
         eq(Statements.Roll(1, 8, 6), Statements.MakeSum(Statements.Roll(1,8,3), Statements.Roll(0,0,3)))
         eq(Statements.Sum([Statements.Roll(4,10,5); Statements.Roll(1,6,5)]), 
             Statements.MakeSum(Statements.Roll(4,10,5), Statements.Roll(1,6,5)))
+
+    [<Fact>]
+    let ``Rounding for mult and div``() =
+        Assert.Equal(44, Roller.ResolveBase (Statements.Times(Statements.Roll(8,1,3), 4)) (fun _ -> ()))        
+        Assert.Equal(-11, Roller.ResolveBase (Statements.Times(Statements.Roll(8,1,3), -1)) (fun _ -> ()))        
+        Assert.Equal(2, Roller.ResolveBase (Statements.Divide(Statements.Roll(8,1,3), 4)) (fun _ -> ()))        
+        // round down
+        Assert.Equal(1, Roller.ResolveBase (Statements.Divide(Statements.Roll(3,1,0), 2)) (fun _ -> ()))        
+        // and even round down to zero
+        Assert.Equal(0, Roller.ResolveBase (Statements.Divide(Statements.Roll(1,1,0), 2)) (fun _ -> ()))        
         
     [<Fact>]
     let ``Simple expressions should parse correctly``() =

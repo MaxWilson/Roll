@@ -5,6 +5,8 @@ type RollPrimitive =
                 | Max of rolls: RollPrimitive list
                 | Min of rolls: RollPrimitive list
                 | Sum of rolls: RollPrimitive list
+                | Times of roll: RollPrimitive * mult : int
+                | Divide of roll: RollPrimitive * div : int
 
 type RollComplex =
     | Simple of roll : RollPrimitive

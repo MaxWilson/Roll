@@ -3,6 +3,8 @@ module Parser
 type token = 
   | String of (string)
   | Ident of (string)
+  | Star
+  | Slash
   | Log
   | ResolveWith
   | Save
@@ -34,6 +36,8 @@ type token =
 type tokenId = 
     | TOKEN_String
     | TOKEN_Ident
+    | TOKEN_Star
+    | TOKEN_Slash
     | TOKEN_Log
     | TOKEN_ResolveWith
     | TOKEN_Save
@@ -75,6 +79,7 @@ type nonTerminalId =
     | NONTERM_MultiRoll
     | NONTERM_MaybeTest
     | NONTERM_Roll
+    | NONTERM_MultList
     | NONTERM_RollList
     | NONTERM_PlusList
     | NONTERM_SimpleRoll

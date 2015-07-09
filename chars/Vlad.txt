@@ -2,13 +2,13 @@ Name: Vladimir Nightbinder
 Background: Sage (Researcher)
 Race: Half-elf
 Class: Necromancer 8/Warlock 2 of Cthulhu
-Stats: ST 11 DX 18 CN 17 IN 18* WS 14* CH 20
-AC: 18 (studded leather and shield) / 19 (mage armor and shield)
+Stats: ST 11 DX 17 CN 17 IN 18* WS 14* CH 20
+AC: 17 (mage armor)
 HP: 74 (+15)
 To-hit: +8 (+9 with Warlock)
 Spell DC: 16 (17 for Warlock)
 Attacks: crossbow +8/1d8+4, Chill touch +8/2d8, Eldritch Blast 2x+9/1d10+5
-Feats: Inspiring Leader, Medium Armor [Planned: Spell Sniper, Resilient (Con), +2 Int]
+Feats: Inspiring Leader, Spell Sniper [Planned: Medium Armor, Resilient (Con), +2 Int]
 Invocations: Agonizing Blast, Eldritch Spear
 Skills (+4): Arcana, Investigation, Nature, Stealth, Perception, Intimidation,
              Common, Elvish, Deep Speech, Draconic, Giant
@@ -48,6 +48,7 @@ C4. Acid Splash
 24. Polymorph
 25. Otiluke's Resilient Sphere
 Prep: 1 2 4 7 13 15 16 18 19 20 21 23 24
+      1 4 5 7 10 13 14 15 16 18 20 23 25 [vs. frost giants]
 
 C1. Light
 C2. Eldritch Blast

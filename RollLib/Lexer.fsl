@@ -27,6 +27,8 @@ rule tokenstream = parse
 | int		{ Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) }
 | plus		{ Parser.Plus }
 | minus		{ Parser.Minus }
+| "*"		{ Parser.Star }
+| "/"		{ Parser.Slash }
 | "."		{ Parser.Dot }
 | ","		{ Parser.Comma }
 | "("		{ Parser.OpenParen }

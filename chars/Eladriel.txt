@@ -14,4 +14,4 @@ Skills (+4): Thieves Tools, History, Persuasion, Perception, Stealth, Acrobatics
              Common, Elvish, Goblin
 Equipment: Quarterstaff, longbow, 40 arrows
 Ki: 10
-XP: 67812
+XP: 79162
