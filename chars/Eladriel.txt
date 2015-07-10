@@ -1,10 +1,10 @@
 Name: Eladriel Shadowdancer
 Background: Noble
 Race: Wood Elf
-Class: Monk 10
+Class: Monk 11
 Stats: ST 8* DX 18* CN 16 IN 16 WS 18 CH 12
 AC: 18
-HP: 83 (+15)
+HP: 91 (+16)
 Move: 65'
 To-hit: +8
 Spell DC: 16
@@ -12,6 +12,6 @@ Attacks: longbow 2x+8/1d8+4, staff +8/1d8+4, unarmed +8/1d6+4
 Feats: Mobile, Alert [planned: Lucky, +2 DX, +2 WS]
 Skills (+4): Thieves Tools, History, Persuasion, Perception, Stealth, Acrobatics,
              Common, Elvish, Goblin
-Equipment: Quarterstaff, longbow, 40 arrows
-Ki: 10
-XP: 79162
+Equipment: Quarterstaff, longbow, 60 arrows
+Ki: 11
+XP: 91062
