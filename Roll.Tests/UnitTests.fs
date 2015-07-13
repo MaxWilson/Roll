@@ -18,7 +18,7 @@ let parse input =
         | _ -> failwith "Unexpected output"
     with _ ->
         let rec printTokens stream =
-            match Lexer.tokenstream stream with
+            match Lexer.nextToken stream with
             | Parser.EOF -> ""
             | token -> 
                         (sprintf "(%A) " token) + (printTokens stream)
@@ -76,7 +76,7 @@ type Unit(output: ITestOutputHelper) =
                 | _ -> failwith "Unexpected output"
             with _ ->
                 let rec printTokens stream =
-                    match Lexer.tokenstream stream with
+                    match Lexer.nextToken stream with
                     | Parser.EOF -> ""
                     | token -> 
                                 (sprintf "(%A) " token) + (printTokens stream)

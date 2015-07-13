@@ -10,8 +10,7 @@ open System
 let newline (lexbuf: LexBuffer<_>) = 
   lexbuf.StartPos <- lexbuf.StartPos.NextLine
 
-
-# 14 "Lexer.fs"
+# 13 "Lexer.fs"
 let trans : uint16[] array = 
     [| 
     (* State 0 *)
@@ -72,76 +71,76 @@ let trans : uint16[] array =
 let actions : uint16[] = [|65535us; 0us; 1us; 2us; 3us; 4us; 5us; 6us; 7us; 8us; 9us; 10us; 15us; 12us; 13us; 14us; 15us; 15us; 16us; 14us; 65535us; 12us; 12us; 12us; 11us; 65535us; 1us; |]
 let _fslex_tables = Microsoft.FSharp.Text.Lexing.UnicodeTables.Create(trans,actions)
 let rec _fslex_dummy () = _fslex_dummy() 
-(* Rule tokenstream *)
-and tokenstream  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_tokenstream  0 lexbuf
-(* Rule tokenstream *)
-and _fslex_tokenstream  _fslex_state lexbuf =
+(* Rule nextToken *)
+and nextToken  (lexbuf : Microsoft.FSharp.Text.Lexing.LexBuffer<_>) = _fslex_nextToken  0 lexbuf
+(* Rule nextToken *)
+and _fslex_nextToken  _fslex_state lexbuf =
   match _fslex_tables.Interpret(_fslex_state,lexbuf) with
   | 0 -> ( 
-# 26 "Lexer.fsl"
+# 25 "Lexer.fsl"
                         Parser.DSymbol 
-# 83 "Lexer.fs"
+# 82 "Lexer.fs"
           )
   | 1 -> ( 
-# 27 "Lexer.fsl"
+# 26 "Lexer.fsl"
                         Parser.Number (Int32.Parse(LexBuffer<_>.LexemeString lexbuf)) 
-# 88 "Lexer.fs"
+# 87 "Lexer.fs"
           )
   | 2 -> ( 
-# 28 "Lexer.fsl"
+# 27 "Lexer.fsl"
                          Parser.Plus 
-# 93 "Lexer.fs"
+# 92 "Lexer.fs"
           )
   | 3 -> ( 
-# 29 "Lexer.fsl"
+# 28 "Lexer.fsl"
                           Parser.Minus 
-# 98 "Lexer.fs"
+# 97 "Lexer.fs"
           )
   | 4 -> ( 
-# 30 "Lexer.fsl"
+# 29 "Lexer.fsl"
                         Parser.Star 
-# 103 "Lexer.fs"
+# 102 "Lexer.fs"
           )
   | 5 -> ( 
-# 31 "Lexer.fsl"
+# 30 "Lexer.fsl"
                         Parser.Slash 
-# 108 "Lexer.fs"
+# 107 "Lexer.fs"
           )
   | 6 -> ( 
-# 32 "Lexer.fsl"
+# 31 "Lexer.fsl"
                         Parser.Dot 
-# 113 "Lexer.fs"
+# 112 "Lexer.fs"
           )
   | 7 -> ( 
-# 33 "Lexer.fsl"
+# 32 "Lexer.fsl"
                         Parser.Comma 
-# 118 "Lexer.fs"
+# 117 "Lexer.fs"
           )
   | 8 -> ( 
-# 34 "Lexer.fsl"
+# 33 "Lexer.fsl"
                         Parser.OpenParen 
-# 123 "Lexer.fs"
+# 122 "Lexer.fs"
           )
   | 9 -> ( 
-# 35 "Lexer.fsl"
+# 34 "Lexer.fsl"
                         Parser.CloseParen 
-# 128 "Lexer.fs"
+# 127 "Lexer.fs"
           )
   | 10 -> ( 
-# 36 "Lexer.fsl"
+# 35 "Lexer.fsl"
                         Parser.QuestionMark 
-# 133 "Lexer.fs"
+# 132 "Lexer.fs"
           )
   | 11 -> ( 
-# 37 "Lexer.fsl"
+# 36 "Lexer.fsl"
                           
                let str = (LexBuffer<_>.LexemeString lexbuf) 
                let str = str.Substring(1, str.Length - 2)
                Parser.String str
-# 141 "Lexer.fs"
+# 140 "Lexer.fs"
           )
   | 12 -> ( 
-# 42 "Lexer.fsl"
+# 41 "Lexer.fsl"
                          
                let word = (LexBuffer<_>.LexemeString lexbuf)
                match word.Trim().ToLower() with
@@ -165,28 +164,28 @@ and _fslex_tokenstream  _fslex_state lexbuf =
                | "loadfrom" -> Parser.Load
                | "saveto" -> Parser.Save
                | _ -> Parser.Ident word   
-# 168 "Lexer.fs"
+# 167 "Lexer.fs"
           )
   | 13 -> ( 
-# 67 "Lexer.fsl"
-                              tokenstream lexbuf 
-# 173 "Lexer.fs"
+# 66 "Lexer.fsl"
+                              nextToken lexbuf 
+# 172 "Lexer.fs"
           )
   | 14 -> ( 
-# 68 "Lexer.fsl"
-                           newline lexbuf; tokenstream lexbuf 
-# 178 "Lexer.fs"
+# 67 "Lexer.fsl"
+                           newline lexbuf; nextToken lexbuf 
+# 177 "Lexer.fs"
           )
   | 15 -> ( 
-# 70 "Lexer.fsl"
+# 69 "Lexer.fsl"
                           failwith ("ParseError" + LexBuffer<_>.LexemeString lexbuf) 
-# 183 "Lexer.fs"
+# 182 "Lexer.fs"
           )
   | 16 -> ( 
-# 71 "Lexer.fsl"
+# 70 "Lexer.fsl"
                           Parser.EOF 
-# 188 "Lexer.fs"
+# 187 "Lexer.fs"
           )
-  | _ -> failwith "tokenstream"
+  | _ -> failwith "nextToken"
 
 # 3000000 "Lexer.fs"
