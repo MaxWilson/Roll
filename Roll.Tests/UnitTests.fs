@@ -45,6 +45,7 @@ type Unit(output: ITestOutputHelper) =
         eq(Delete(Some "umberhulk_1", None), interpreter.Parse @"kill umberhulk_1")
         eq(Delete(Some "umberhulk1", None), interpreter.Parse @"kill umberhulk1")
         eq(Delete(Some "umberhulk1", Some "stunned"), interpreter.Parse @"delete umberhulk1 stunned")
+        eq(SetValue(Some "umberhulk9", "slot7", "24"), interpreter.Parse @"set umberhulk9 slot7 24")
 
     [<Fact>]
     let ``Spot check sums``() =

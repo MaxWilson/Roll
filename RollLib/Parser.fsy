@@ -76,7 +76,9 @@ Command:
 SetValue:
 	| Set ID { Statements.SetContext $2 }
 	| Set ID ID { Statements.SetValue(None, $2, $3) }
+	| Set ID Whitespace Number { Statements.SetValue(None, $2, $4.ToString()) }
 	| Set ID ID ID { Statements.SetValue(Some $2, $3, $4) }
+	| Set ID ID Whitespace Number { Statements.SetValue(Some $2, $3, $5.ToString()) }
 	| Add ID RWSNumber { Statements.AddValue(None, $2, $3) }
 	| Add ID ID RWSNumber { Statements.AddValue(Some $2, $3, $4) }
 	| Sub ID RWSNumber { Statements.AddValue(None, $2, -$3) }
