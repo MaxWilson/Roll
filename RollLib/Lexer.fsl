@@ -11,7 +11,7 @@ let newline (lexbuf: LexBuffer<_>) =
 }
 
 // Regular expressions
-let whitespace = [' ' '\t' ]
+let whitespace = [' ' '\t' ]+
 let newline = ('\n' | '\r' '\n')
 let digit       = ['0'-'9']   
 let word		= (['a'-'z' 'A'-'Z']+ ('_' ['0'-'9']+)?)
@@ -63,7 +63,7 @@ match word.Trim().ToLower() with
 | _ -> Parser.Ident word   
 }
 // --------------------------
-| whitespace	{ nextToken lexbuf }
+| whitespace	{ Parser.Whitespace }
 | newline	{ newline lexbuf; nextToken lexbuf }
 // --------------------------
 | _    		{ failwith ("ParseError" + LexBuffer<_>.LexemeString lexbuf) }

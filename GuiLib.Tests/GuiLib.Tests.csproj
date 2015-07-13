@@ -21,7 +21,7 @@
     <PackageCertificateKeyFile>GuiLib.Tests_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxBundle>Never</AppxBundle>
     <AllowCrossPlatformRetargeting>False</AllowCrossPlatformRetargeting>
-    <NuGetPackageImportStamp>91ac8656</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f18ca551</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -177,13 +177,13 @@
     <Error Condition="!Exists('..\packages\xunit.core.2.0.0\build\win8\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.0.0\build\win8\xunit.core.targets'))" />
     <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\win8\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.0.0\build\win8\xunit.runner.visualstudio.props'))" />
     <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\win8\xunit.runner.visualstudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.0.0\build\win8\xunit.runner.visualstudio.targets'))" />
-    <Error Condition="!Exists('..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets'))" />
     <Error Condition="!Exists('..\packages\FsLexYacc.6.1.0\build\FsLexYacc.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FsLexYacc.6.1.0\build\FsLexYacc.targets'))" />
+    <Error Condition="!Exists('..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets'))" />
   </Target>
   <Import Project="..\packages\xunit.core.2.0.0\build\win8\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.0.0\build\win8\xunit.core.targets')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.0.0\build\win8\xunit.runner.visualstudio.targets" Condition="Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\win8\xunit.runner.visualstudio.targets')" />
-  <Import Project="..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets" Condition="Exists('..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets')" />
   <Import Project="..\packages\FsLexYacc.6.1.0\build\FsLexYacc.targets" Condition="Exists('..\packages\FsLexYacc.6.1.0\build\FsLexYacc.targets')" />
+  <Import Project="..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets" Condition="Exists('..\packages\xunit.MSBuild.2.0.0.0\build\xunit.MSBuild.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

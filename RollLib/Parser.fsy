@@ -38,6 +38,7 @@
 %token Log
 %token Slash
 %token Star
+%token Whitespace
 %token <string> Ident
 %token <string> String
 
@@ -72,32 +73,14 @@ Command:
 	| Load ID { Statements.Load $2 }
 	| Save ID { Statements.Save $2 }
 
-ID:
-	| IdentOrString { $1 }
-	| Ident Number { $1 + ($2.ToString()) }
-
-IdentOrString:
-	| Ident { $1 }
-	| String { $1 }
-
 SetValue:
 	| Set ID { Statements.SetContext $2 }
-	| Set ID Ident { Statements.SetValue(None, $2, $3) }
-	| Set ID String { Statements.SetValue(None, $2, $3) }
-	| Set ID Ident ID { Statements.SetValue(Some $2, $3, $4) }
-	| Set ID Ident Number { Statements.SetValue(Some $2, $3, $4.ToString()) }
-	| Set ID Ident Number ID { Statements.SetValue(Some $2, $3 + $4.ToString(), $5) }
-	| Set ID String ID { Statements.SetValue(Some $2, $3, $4) }
-	| Add IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, $4) }
-	| Add Ident Number IdentOrString Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, $5) }
-	| Add Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), $4) }
-	| Add Ident Number { Statements.AddValue(None, $2, $3) }
-	| Add String Number { Statements.AddValue(None, $2, $3) }
-	| Sub IdentOrString IdentOrString Number { Statements.AddValue(Some $2, $3, -$4) }
-	| Sub Ident Number IdentOrString Number { Statements.AddValue(Some ($2 + $3.ToString()), $4, -$5) }
-	| Sub Ident Number Number { Statements.AddValue(None, ($2 + $3.ToString()), -$4) }
-	| Sub Ident Number { Statements.AddValue(None, $2, -$3) }
-	| Sub String Number { Statements.AddValue(None, $2, -$3) }
+	| Set ID ID { Statements.SetValue(None, $2, $3) }
+	| Set ID ID ID { Statements.SetValue(Some $2, $3, $4) }
+	| Add ID RWSNumber { Statements.AddValue(None, $2, $3) }
+	| Add ID ID RWSNumber { Statements.AddValue(Some $2, $3, $4) }
+	| Sub ID RWSNumber { Statements.AddValue(None, $2, -$3) }
+	| Sub ID ID RWSNumber { Statements.AddValue(Some $2, $3, -$4) }
 	
 PrintValue:
 	| Print ID { Statements.PrintValues (Some $2, None) }
@@ -124,13 +107,15 @@ MultList:
 	| PlusList Slash Number { Statements.Divide($1, $3) }
 
 RollList:
-	| SimpleRoll Comma RollList { List.append [$1] $3 }
+	| Whitespace RollList { $2 }
+	| SimpleRoll OWSComma RollList { List.append [$1] $3 }
 	| SimpleRoll { [$1] }
 
 PlusList:
+	| Whitespace PlusList { $2 }
 	| SimpleRoll { $1 }
-	| SimpleRoll Plus PlusList { Statements.MakeSum($1, $3) }
-	| SimpleRoll Minus PlusList { Statements.MakeSubtract($1, $3) }
+	| SimpleRoll OWSPlus PlusList { Statements.MakeSum($1, $3) }
+	| SimpleRoll OWSMinus PlusList { Statements.MakeSubtract($1, $3) }
 
 SimpleRoll:
 	| Number						{ Statements.Roll(0, 0, $1) }
@@ -140,4 +125,17 @@ SimpleRoll:
 	| SimpleRoll Advantage					{ Statements.Max [$1; $1] }
 	| SimpleRoll Disadvantage				{ Statements.Min [$1; $1] }
 	
+RWSNumber: Whitespace Number { $2 }
+OWSComma: Comma { () } | Whitespace Comma { () }
+OWSPlus: Plus { () } | Whitespace Plus { () }
+OWSMinus: Minus { () } | Whitespace Minus { () }
+
+ID:
+	| Ident { $1 }
+	| Whitespace Ident { $2 }
+	| Ident Number { $1 + ($2.ToString()) }
+	| Whitespace Ident Number { $2 + ($3.ToString()) }
+	| String { $1 }
+	| Whitespace String { $2 }
+
 

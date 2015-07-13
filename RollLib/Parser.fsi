@@ -3,6 +3,7 @@ module Parser
 type token = 
   | String of (string)
   | Ident of (string)
+  | Whitespace
   | Star
   | Slash
   | Log
@@ -36,6 +37,7 @@ type token =
 type tokenId = 
     | TOKEN_String
     | TOKEN_Ident
+    | TOKEN_Whitespace
     | TOKEN_Star
     | TOKEN_Slash
     | TOKEN_Log
@@ -72,8 +74,6 @@ type nonTerminalId =
     | NONTERM__startstart
     | NONTERM_start
     | NONTERM_Command
-    | NONTERM_ID
-    | NONTERM_IdentOrString
     | NONTERM_SetValue
     | NONTERM_PrintValue
     | NONTERM_MultiRoll
@@ -83,6 +83,11 @@ type nonTerminalId =
     | NONTERM_RollList
     | NONTERM_PlusList
     | NONTERM_SimpleRoll
+    | NONTERM_RWSNumber
+    | NONTERM_OWSComma
+    | NONTERM_OWSPlus
+    | NONTERM_OWSMinus
+    | NONTERM_ID
 /// This function maps tokens to integer indexes
 val tagOfToken: token -> int
 
