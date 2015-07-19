@@ -8,7 +8,7 @@ HP: 91 (+16)
 To-hit: +8
 Spell DC: 16
 Attacks: Eldritch Blast 2x+9/1d10+5
-Feats: Spell Sniper (Fire Bolt), +2 CH [planned: Alert, Healer?]
+Feats: Spell Sniper (Fire Bolt), +2 CH [planned: Alert, Healer for resource conservation? Lucky for Counterspell?]
 Invocations: Agonizing Blast, Repelling Blast
 Skills (+4): Athletics, Survival, Insight, Persuasion, Deception, Intimidation, Stealth*, Perception*, Acrobatics, History,
         Common, Elvish, Dwarvish, Terran
