@@ -1,5 +1,5 @@
 ﻿module Roller 
-open Statements
+open RollLib.Statements
 
 let r = System.Random()
         

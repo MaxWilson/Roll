@@ -15,8 +15,8 @@
     <TargetFSharpCoreVersion>3.3.1.0</TargetFSharpCoreVersion>
     <Name>RollLib</Name>
     <NuGetPackageImportStamp>daad299c</NuGetPackageImportStamp>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>   
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType> 
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +27,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\RollLib.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -53,15 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Statements.fs" />
-    <FsYacc Include="Parser.fsy">
-      <OtherFlags>--module Parser</OtherFlags>
-    </FsYacc>
-    <FsLex Include="Lexer.fsl">
-      <OtherFlags>--unicode</OtherFlags>
-    </FsLex>
-    <Compile Include="Parser.fs" />
-    <Compile Include="Lexer.fs" />
     <Compile Include="Roller.fs" />
+    <Compile Include="CommandParser.fs" />
     <Compile Include="Interpreter.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />

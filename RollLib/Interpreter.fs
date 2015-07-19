@@ -8,10 +8,7 @@ open System.Collections.Generic
 type Interpreter(print : string -> unit, readline : unit -> string, writeFile : string * string -> unit, readFile : string -> string) =
 
     let rec printTokens stream =
-        match Lexer.nextToken stream with
-        | Parser.EOF -> ()
-        | token -> print <| sprintf "(%A) \n" token
-                   printTokens stream
+        failwith "Not implemented"
 
     member this.prompt msg processor = 
         print <| sprintf "%s " msg
@@ -26,7 +23,7 @@ type Interpreter(print : string -> unit, readline : unit -> string, writeFile : 
                 None
 
     member this.Parse input =     
-        let parsed = input |> LexBuffer<char>.FromString |> Parser.start Lexer.nextToken 
+        let parsed = CommandParser.parse input
         #if DEBUG
         print <| sprintf "%A\n" parsed
         #endif

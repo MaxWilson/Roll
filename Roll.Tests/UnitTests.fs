@@ -1,7 +1,7 @@
 ﻿module Roll.Tests
 
 open Xunit
-open Statements
+open RollLib.Statements
 open Xunit.Abstractions
 open Microsoft.FSharp.Text.Lexing
 open RollLib
@@ -17,13 +17,7 @@ let parse input =
         | RollCommand(roll) -> roll
         | _ -> failwith "Unexpected output"
     with _ ->
-        let rec printTokens stream =
-            match Lexer.nextToken stream with
-            | Parser.EOF -> ""
-            | token -> 
-                        (sprintf "(%A) " token) + (printTokens stream)
-        failwith <| sprintf "Could not parse '%s'" (input |> LexBuffer<char>.FromString |> printTokens)
-
+        failwith <| sprintf "Could not parse '%s'" input
 
 type Unit(output: ITestOutputHelper) =
     [<Fact>]
@@ -76,12 +70,7 @@ type Unit(output: ITestOutputHelper) =
                 | RollCommand(Simple(roll)) -> roll
                 | _ -> failwith "Unexpected output"
             with _ ->
-                let rec printTokens stream =
-                    match Lexer.nextToken stream with
-                    | Parser.EOF -> ""
-                    | token -> 
-                                (sprintf "(%A) " token) + (printTokens stream)
-                failwith <| sprintf "Could not parse '%s'" (input |> LexBuffer<char>.FromString |> printTokens)
+                failwith <| sprintf "Could not parse '%s'" input
 
         let eq(lhs : RollPrimitive, rhs : RollPrimitive) =
             if lhs <> rhs then

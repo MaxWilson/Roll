@@ -1,6 +1,6 @@
 ﻿module Program
 open System
-open Statements
+open RollLib.Statements
 open Microsoft.FSharp.Text.Lexing
 open System.Collections.Generic
 open RollLib
