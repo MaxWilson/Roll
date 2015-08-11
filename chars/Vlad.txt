@@ -22,6 +22,7 @@ C1. Mage Hand
 C2. Prestidigitation
 C3. Chill Touch
 C4. Acid Splash
+[Planned: C5. Blade ward]
 1. Longstrider
 2. Mage Armor
 3. Feather Fall
@@ -58,3 +59,6 @@ C2. Eldritch Blast
 1. Dissonant Whispers
 2. Expeditious Retreat
 3. Hex
+
+(Spell Sniper)
+CB. Shocking Grasp
