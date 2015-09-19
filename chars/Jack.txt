@@ -13,7 +13,7 @@ Invocations: Agonizing Blast, Repelling Blast
 Skills (+4): Athletics, Survival, Insight, Persuasion, Deception, Intimidation, Stealth*, Perception*, Acrobatics, History,
         Common, Elvish, Dwarvish, Terran
 Equipment: Crossbow, Studded Leather Armor, explorer's pack
-XP: 87162
+XP: 93012
 
 Spells: [2 warlock cantrips + 3 spells, 3 bard cantrips + 10 spells; SP 4 + 57]
 C1. Blade Ward

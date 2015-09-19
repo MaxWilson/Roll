@@ -27,7 +27,7 @@ C5. Ray of Frost
 3. Absorb Elements
 4. Blur
 5. Mirror Image
-[Planned: Shield, Absorb Elements, Mirror Image, Counterspell, Hypnotic Pattern, Enhance Ability, Hold Monster, Polymorph, Web, Animate Objects]
+[Planned: Shield, Absorb Elements, Mirror Image, Counterspell, Hypnotic Pattern, Enhance Ability, Wall of Stone, Polymorph, Web, Animate Objects]
 W. Jump
 W. Sleep
 W. See Invisibility
