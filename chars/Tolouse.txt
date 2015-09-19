@@ -1,0 +1,5 @@
+Tolouse, French Longbowman Fighter 2
+[16 13 17 9 13 7]
+Str 13 Dex 18 Con 16 Int 13 Wis 7 Cha 10 AC 16 (leathers) (18 w/ shield) HP 22
+Sharpshooter
+Hot-tempered, rash, easily baited--but a good man in a fight and a loyal friend.

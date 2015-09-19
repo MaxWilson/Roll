@@ -1,0 +1,9 @@
+Hamanas, Scro Soldier Fighter 1/Fiend Warlock 6
+[17 9 15 13 15 12]
+Str* 17 Dex 12 Con* 15 Int 13 Wis 9 Cha 18 AC 21 (Plate and shield)
+Pact of the Blade, Agonizing Repelling Eldritch Spear
+Mounted Combatant
+Fireball, Fly, Hypnotic Pattern, Hex, Counterspell, Battle Double, Delay Death
++10 temp HP per kill
+Defense Style
+(+3) Athletics, Stealth, Investigation, Perception
