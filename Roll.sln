@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RollWeb", "src\RollWeb.fsproj", "{7CD3C0AA-0E55-451B-9E95-9E62A11C75E8}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RollExe", "RollExe\RollExe.fsproj", "{E59CFC23-429B-4402-9740-75E0147B81F3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Roll", "Roll\Roll.fsproj", "{3D046895-488B-4E18-9314-6375B76854F9}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RollTestNet", "RollTestNet\RollTestNet.fsproj", "{9D25AC36-406E-4710-8427-AC226F8E12CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CD3C0AA-0E55-451B-9E95-9E62A11C75E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD3C0AA-0E55-451B-9E95-9E62A11C75E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD3C0AA-0E55-451B-9E95-9E62A11C75E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD3C0AA-0E55-451B-9E95-9E62A11C75E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E59CFC23-429B-4402-9740-75E0147B81F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E59CFC23-429B-4402-9740-75E0147B81F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E59CFC23-429B-4402-9740-75E0147B81F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E59CFC23-429B-4402-9740-75E0147B81F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D046895-488B-4E18-9314-6375B76854F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D046895-488B-4E18-9314-6375B76854F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D046895-488B-4E18-9314-6375B76854F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D046895-488B-4E18-9314-6375B76854F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D25AC36-406E-4710-8427-AC226F8E12CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D25AC36-406E-4710-8427-AC226F8E12CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D25AC36-406E-4710-8427-AC226F8E12CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D25AC36-406E-4710-8427-AC226F8E12CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AE0BF20-8982-4EAA-83C3-D66C81449A9D}
+	EndGlobalSection
+EndGlobal
