@@ -14,6 +14,7 @@ let init() =
     ctx.fillStyle <- !^"rgb(200,0,0)"
     ctx.fillRect (10., 10., 55., 50.)
     ctx.fillStyle <- !^"rgba(0, 0, 200, 0.5)"
-    ctx.fillRect (30., 30., 55., 50.)    
+    ctx.fillRect (30., 30., 55., 50.)
+    ctx.fillText("2d5" |> Dice.parse |> Dice.roll |> string, 100., 20.)
 
 init()

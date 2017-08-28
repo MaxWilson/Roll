@@ -9,7 +9,7 @@ let roll (spec: RollSpec) =
     plus + ([for _ in 1..n -> 1 + r.Next(d)] |> List.sum)
 let average (spec: RollSpec) =
   5
-let eval spec = sprintf "%d" (roll spec)
+let evaluate spec = (roll spec) |> string
 
 let parse (input: string) =
   RollSpec.Create(3,6,2)
